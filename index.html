@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="This paper focuses on planning robot navigation tasks from natural language specifications..">
+  <meta name="keywords" content="LLM-Planning, Code Generation, LTLCodeGen">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LTLCodeGen: Code Generation of Syntactically Correct Temporal Logic for Robot Task Planning</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <!-- <link rel="icon" href="./static/images/favicon.svg"> -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://keunhong.com">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://existentialrobotics.org/pages/llm-planning">
+            Optimal Scene Graph Planning with Large Language Model Guidance
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">LTLCodeGen: Code Generation of Syntactically Correct Temporal Logic for Robot Task Planning</h1>
+          <div class="is-size-5 publication-authors">
+
+            <span class="author-block">
+              <a href="https://brabiei21.github.io">Behrad Rabiei</a><sup>*</sup>,
+            </span>
+
+            <span class="author-block">
+              <a href="https://www.linkedin.com/in/mahesh-kumar-601b92175?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3B%2FIdIKjdsTMSVrgtZxBTtOA%3D%3D">Mahesh Kumar A.R.</a><sup>*</sup>,
+            </span>
+            
+            <span class="author-block">
+              <a href="https://daizhirui.github.io">Zhirui Dai</a>,
+            </span>
+            
+            <span class="author-block">
+              <a href="https://existentialrobotics.org/pages/people.html#:~:text=Surya%20Lakshmi%20Subba%20Rao%20Pilla">Surya L.S.R. Pilla</a>,
+            </span>
+            
+            <span class="author-block">
+              <a href="https://existentialrobotics.org/pages/people.html#:~:text=Charlotte%20Dong%2C%20ECE%2C%20UCSD">Qiyue Dong</a>,
+            </span>
+            
+            <span class="author-block">
+              <a href="https://natanaso.github.io">Nikolay Atanasov</a>
+            </span>
+            
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">University of California San Diego</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2503.07902v1"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2503.07902v1"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <span class="link-block">
+                <a href="https://www.youtube.com/watch?v=T4Up0Uy2Ec4&t=1s"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/ExistentialRobotics/LTLCodeGen"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <span class="link-block">
+                <a href="https://github.com/ExistentialRobotics/SOLAR/blob/main/real_world_evaluation_prompts.yaml"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data (this is in Solar, needs to change)</span>
+                  </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <!-- Replace video with an image -->
+                  <img id="teaser-image" src="./static/images/LTLCodeGen-SystemDiagram.png" alt="System Overview" height="100%">
+        <h2 class="subtitle has-text-centered">
+        Our modular approach turns a natural language instruction into an executable robot plan.
+      </h2>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div style="display: flex; align-items: center; justify-content: center; gap: 20px;">
+        <!-- Left side: Teaser Image -->
+        <div style="flex: 1; text-align: center;">
+          <img src="./static/images/teaser_v3.png" alt="Teaser Image" style="width: 400px; height: 400px; object-fit: contain;">
+        </div>
+        
+        <!-- Center: GIF -->
+        <div style="flex: 1; text-align: center;">
+          <img src="./static/images/image30.gif" alt="Demo GIF" style="width: 400px; height: 400px; object-fit: contain;">
+        </div>
+
+        <!-- Right side: GIF -->
+        <div style="flex: 1; text-align: center;">
+          <img src="./static/images/image33.gif" alt="Demo GIF" style="width: 400px; height: 400px; object-fit: contain;">
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            This paper focuses on planning robot navigation tasks from natural language specifications. 
+            We develop a modular approach, where a large language model (LLM) translates the natural language 
+            instructions into a linear temporal logic (LTL) formula with propositions defined by object 
+            classes in a semantic occupancy map. The LTL formula and the semantic occupancy map are provided 
+            to a motion planning algorithm to generate a collision-free robot path that satisfies the natural 
+            language instructions. Our main contribution is LTLCodeGen, a method to translate natural language
+             to syntactically correct LTL using code generation. We demonstrate the complete task planning 
+             method in real-world experiments involving human speech to provide navigation instructions to a 
+             mobile robot. We also thoroughly evaluate our approach in simulated and real-world experiments 
+             in comparison to end-to-end LLM task planning and state-of-the-art LLM-to-LTL translation methods.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/T4Up0Uy2Ec4?rel=0&amp;showinfo=0&amp;start=1"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+    <!--/ Paper video. -->
+
+    <!-- Results. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Results</h2>
+        <!-- New structure -->
+        <!-- New structure -->
+        <div class="content">
+          <!-- First row: Wide picture with description -->
+          <div class="columns is-centered">
+            <div class="column is-full">
+              <img src="./static/images/real_world.png" alt="Real World Results" style="width: 100%;">
+              <p class="has-text-centered">We evaluate our system in a mock indoor environment with eight object categories and four tiers of tasks, ranging from simple single-object missions to complex, context-based instructions. Across 45 scenarios, we use LTL specifications generated by LTLCodeGen or NL2LTL, testing success rate, semantic and syntactic error rates, and LLM runtime. Results show that LTLCodeGen consistently outperforms NL2LTL, achieving stronger correctness and better handling of sequential tasks, though it requires longer inference times. An ablation study reveals that removing task explanations significantly harms complex task performance, removing code comments has minor effects, and using a smaller model (GPT-4o-mini) leads to greater difficulty handling ambiguity and sequencing constraints.</p>
+            </div>
+          </div>
+          <!-- Second row: Two pictures with descriptions -->
+          <div class="columns">
+            <div class="column is-half">
+              <img src="./static/images/GTB.png" alt="GTB Results" style="width: 100%;">
+              <p class="has-text-centered">We evaluate our task planning approach on the GameTraversalBenchmark (GTB), a dataset of 150 LLM-generated 2D maps with objects, stories, and task objectives. For each map, we create a 2D semantic occupancy map and an instruction combining all objectives in order. Our system uses the map and instruction to generate a path that completes all tasks, and we measure performance with Accuracy (success rate) and Mean Path Length (path efficiency). Results show our system outperforms the GPT-4o-based planner from GTB.</p>
+            </div>
+            <div class="column is-half">
+              <img src="./static/images/BART.png" alt="BART Results" style="width: 100%;">
+              <p class="has-text-centered">We evaluate LTLCodeGen and three baselines (NL2LTL, BART-FT-RAW-human, and BART-FT-RAW-synthetic) on the Drone, Cleanup, and Pick datasets, using GPT-4o. For each dataset, prompts are tuned with a small number of examples, and both human-written and synthetic instructions are tested. Results show that LTLCodeGen significantly outperforms all baselines, demonstrating strong generalization and robust LTL generation. NL2LTL performs better than fine-tuned LLMs but worse than LTLCodeGen, mainly due to LTL syntax errors and semantic mismatches that it fails to correct.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ Results. -->
+  </div>
+</section>
+
+    <!-- Concurrent Work. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Related Links</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            There's a lot of excellent work that was introduced around the same time as ours.
+          </p>
+          <p>
+            <a href="https://arxiv.org/abs/2104.09125">Progressive Encoding for Neural Optimization</a> introduces an idea similar to our windowed position encoding for coarse-to-fine optimization.
+          </p>
+          <p>
+            <a href="https://www.albertpumarola.com/research/D-NeRF/index.html">D-NeRF</a> and <a href="https://gvv.mpi-inf.mpg.de/projects/nonrigid_nerf/">NR-NeRF</a>
+            both use deformation fields to model non-rigid scenes.
+          </p>
+          <p>
+            Some works model videos with a NeRF by directly modulating the density, such as <a href="https://video-nerf.github.io/">Video-NeRF</a>, <a href="https://www.cs.cornell.edu/~zl548/NSFF/">NSFF</a>, and <a href="https://neural-3d-video.github.io/">DyNeRF</a>
+          </p>
+          <p>
+            There are probably many more by the time you are reading this. Check out <a href="https://dellaert.github.io/NeRF/">Frank Dellart's survey on recent NeRF papers</a>, and <a href="https://github.com/yenchenlin/awesome-NeRF">Yen-Chen Lin's curated list of NeRF papers</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Concurrent Work. -->
+
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@misc{rabiei2025ltlcodegencodegenerationsyntactically,
+      title={LTLCodeGen: Code Generation of Syntactically Correct Temporal Logic for Robot Task Planning}, 
+      author={Behrad Rabiei and Mahesh Kumar A. R. and Zhirui Dai and Surya L. S. R. Pilla and Qiyue Dong and Nikolay Atanasov},
+      year={2025},
+      eprint={2503.07902},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO},
+      url={https://arxiv.org/abs/2503.07902}, 
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/videos/llm-planning.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/ExistentialRobotics" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This webpage template is from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>. We sincerely thank the developers for open-sourcing this template.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
