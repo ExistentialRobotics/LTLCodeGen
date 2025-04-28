@@ -219,17 +219,38 @@
     </div>
     <!--/ Abstract. -->
 
-    <!-- Paper video. -->
+    <!-- Intro / Problem Formulation. -->
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
-        <h2 class="title is-3">Video</h2>
-        <div class="publication-video">
-          <iframe src="https://www.youtube.com/embed/T4Up0Uy2Ec4?rel=0&amp;showinfo=0&amp;start=1"
-                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <h2 class="title is-3">Introduction</h2>
+        <div class="content has-text-justified">
+          <p>
+            Understanding and executing natural language tasks is crucial for autonomous robot assistants, but translating high-level language into low-level robot actions remains a challenge. Large Language Models (LLMs) like GPT-4, LLaMA-2, and DeepSeek-R1 have shown strong abilities in language-based task reasoning and planning, playing roles such as context extractors, translators of natural language to formal logic, task schedulers, and collaborators with multi-modal models. However, despite their capabilities, LLMs often cannot robustly handle the full process of converting language instructions to executable actions without careful system design, involving components like symbol grounding, task decomposition, and execution monitoring. Recent work has explored both end-to-end LLM-driven task planning and modular approaches. This paper adopts a modular strategy, introducing LTLCodeGen, a method that first translates language instructions into linear temporal logic (LTL) formulas and then uses semantic occupancy maps for grounded motion planning.
+          </p>
+
+          <p>
+              The proposed system begins by constructing a semantic occupancy map from sensor data, categorizing the environment into object classes, free space, or unknown areas. This map serves as a bridge between natural language and the robot’s environment. Using boolean atomic propositions that signal proximity to certain classes, the system creates a label map, enabling the robot to track which conditions are satisfied during movement. The task planning problem is defined as finding a path that fulfills a natural language-specified task while minimizing motion cost and avoiding obstacles. The robot grounds task requirements into atomic propositions and paths, ensuring that the sequence of labels (a “word”) satisfies the task's logic formula. The LTLCodeGen technique generates these formulas from natural language, and a motion planner finds a collision-free path that satisfies them, demonstrating a structured and scalable alternative to purely end-to-end LLM-based task planning.
+          </p>
         </div>
       </div>
     </div>
-    <!--/ Paper video. -->
+    <!--/ Intro / Problem Formulation. -->
+
+    <!-- Method. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Methodology</h2>
+        <div class="content has-text-justified">
+          <p>
+            Our task planning approach starts by building a semantic occupancy map that captures both the physical layout and the object categories in the robot’s environment. Using a ground robot equipped with RGB and range sensors, the system constructs the map by combining localization (using Direct LiDAR Odometry), semantic segmentation (via YOLO), and semantic mapping (using SSMI). The 3D semantic map is projected into a 2D representation suited for wheeled navigation, categorizing areas as free, occupied, or associated with specific object classes. Next, we introduce LTLCodeGen, which translates natural language instructions into syntactically correct Linear Temporal Logic (LTL) formulas. Instead of directly generating LTL text, the system prompts an LLM to produce Python code using predefined logical functions, ensuring robustness against syntax errors. The code is executed to generate the final LTL formula, linking objects in instructions to semantic map categories through a systematic object ID assignment process.
+          </p>
+          <p>
+            After generating the LTL formula, the system transforms it into a Buchi automaton, a formal model that supports reasoning about temporal tasks. The task planning process then constructs a product planning graph that combines the robot's motion space and the automaton’s state transitions. Nodes represent combinations of robot positions and automaton states, and edges ensure both physical feasibility (collision-free movement) and logical correctness (satisfying the LTL task structure). The A* search algorithm, enhanced with a consistent heuristic based on LTL satisfaction, finds an optimal path that fulfills the task requirements. When a valid path is found, a tracking controller drives the robot along it, guaranteeing that the motion both avoids obstacles and successfully carries out the natural language command.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Method. -->
 
     <!-- Results. -->
     <div class="columns is-centered has-text-centered">
@@ -260,6 +281,18 @@
       </div>
     </div>
     <!--/ Results. -->
+
+    <!-- Paper video. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/T4Up0Uy2Ec4?rel=0&amp;showinfo=0&amp;start=1"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+    <!--/ Paper video. -->
   </div>
 </section>
 
