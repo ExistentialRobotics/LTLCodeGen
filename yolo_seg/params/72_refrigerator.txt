@@ -1,0 +1,5 @@
+The refrigerator is associated with the id number 72. Refrigerators are commonly found
+  in kitchens and are used for storing and preserving food at low temperatures to
+  prevent spoilage. They are essential appliances in households and commercial establishments
+  for keeping food fresh and extending its shelf life.
+...

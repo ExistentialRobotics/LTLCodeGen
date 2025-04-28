@@ -1,0 +1,6 @@
+The giraffe is associated with the id number 23. Giraffes are tall, majestic animals
+  typically found in savannas and grasslands in Africa. Known for their long necks
+  and unique spotted patterns, giraffes are herbivores and use their height to reach
+  leaves and branches high up in trees. They are often seen in wildlife reserves and
+  national parks, where they roam freely in their natural habitat.
+...

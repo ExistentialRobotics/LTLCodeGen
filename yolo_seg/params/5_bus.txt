@@ -1,0 +1,5 @@
+The bus is associated with the id number 5. Buses are commonly seen on roads and streets,
+  providing public transportation for passengers to travel from one place to another.
+  They are often used for commuting, school transportation, and long-distance travel,
+  offering a convenient and cost-effective way to get around.
+...

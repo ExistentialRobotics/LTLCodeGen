@@ -1,0 +1,5 @@
+The horse is associated with the id number 17. Horses are commonly found on farms,
+  ranches, and in equestrian facilities. They are often used for riding, racing, and
+  other recreational activities, as well as for agricultural work. Horses are known
+  for their strength, speed, and beauty, making them popular animals for various purposes.
+...

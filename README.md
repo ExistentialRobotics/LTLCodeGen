@@ -1,0 +1,88 @@
+# SOLAR
+Semantic Octomap-based LLM-guided Autonomous Robot
+
+The objective of this project is to develop an autonomous ground vehicle capable of executing tasks based on voice commands. The project encompasses several stages, including world view segmentation to generate a semantic octomap, converting speech to Linear Temporal Logic (LTL) using a Large Language Model (LLM), and planning.
+
+## System requirement
+1. Ubuntu 20.04 (Focal Fossa)
+    - If not already installed, follow this link to install ROS Noetic [ROS Noetic installation](https://wiki.ros.org/noetic/Installation/Ubuntu)
+
+2. Gazebo Fortress
+    - Follow this link to install Gazebo Fortress via apt PPA: [Gazebo Fortress installation](https://gazebosim.org/docs/fortress/install_ubuntu)
+
+3. Teleop Twist and Skimage
+    - You may need to install Teleop Twist Keyboard via apt (`sudo apt-get install ros-noetic-teleop-twist-keyboard`) and [skimage via pip](https://scikit-image.org/docs/stable/user_guide/install.html#installation-via-pip-and-conda)
+
+4.  Octomap and Additional Packages 
+    - `sudo apt-get install ros-noetic-octomap`
+    - `sudo apt-get install ros-noetic-octomap-msgs` 
+    - `sudo apt-get install ros-noetic-octomap-ros`
+    - `sudo apt-get install ros-noetic-octovis`
+    - `sudo apt-get install ros-noetic-vision-msgs`
+    - `pip3 install ultralytics`
+
+5. Right Simulation Version
+    - (In the src area of your catkin ws) Follow the "from source" instructions from noetic branch of the following repository [ros-bridge](https://github.com/gazebosim/ros_gz/tree/noetic). It must be from source in order for the Ignition version to be Fortress, rather than Citadel.
+The important shell commands to execute are:
+        ```
+        # in the src directory
+        git clone [repo] -b noetic
+        
+        # in the workspace directory
+        rosdep install -r --from-paths src -i -y --rosdistro noetic
+        ```
+       Note that we only need the folders ros_ign_gazebo and ros_ign_bridge in order to build for SOLAR. If desired, you can remove the other package directories (ros_ign, ros_ign_image, etc).
+
+## Getting started with the repository
+
+Inside your catkin workspace: ex: solar_ws , cd into src and clone the repository. 
+This will ask for your username and personal access token a few times. 
+
+## Running Simulation
+1. Running teleop and gazebo ignition: `roslaunch jackal_solar_sim launch_jackal_roam.launch`
+2. Running SSMI and yolo_seg: `roslaunch jackal_solar_sim launch_rgbd_ssmi_solar.launch` and `roslaunch yolo_seg yolo_seg.launch input_topic:=/husky_1/image`
+
+## I. Simulation setup (Mapping)
+The simulation uses ignition gazebo that has segmentation camera as a sensor module that is required for semantic octomap generation. There are 2 steps involved in simulation namely setting up ignition gazebo environment (submodule: gazebo-ignition-ros) and setting up semantic octomap generation (submodule: SSMI)
+
+### 1. Semantic Segmentation Simulation environment
+The simulation is husky robot simulation submodule containing ignition gazebo environment with RGBD and Segmentation camera. Please refer to README file of the submodule for further details of requirements and installation process.
+
+### 2. OctoMap - SSMI
+
+In SSMI-Mapping/params/octomap_generator.yaml, you should change the save path variable to any desired location.
+
+Also after building with catkin, there will be a python import error due to the method catkin build uses for creating symlinks of python scripts. This error will appear if you attempt to run semantic_octomap.launch as shown below.
+You will need to delete the symlinked version of semantic_sensor.py that is being used in the devel folder, and replace it with a source copy so that the class import functions properly.
+Ex:
+```
+cd ~/solar_ws
+rm devel/.private/semantic_octomap/lib/semantic_octomap/semantic_sensor.py
+cp src/SOLAR/SSMI/SSMI-Mapping/scripts/semantic_sensor.py devel/.private/semantic_octomap/lib/semantic_octomap/.
+```
+
+
+<!-- ### Run the rosnodes
+1. Terminal 1: build and launch the simulation node
+```
+cd ~/solar_ws
+source /opt/ros/noetic/setup.bash
+catkin build
+source devel/setup.bash
+source src/SOLAR/jackal_solar_sim/scripts/set_env_variables.sh
+roslaunch jackal_solar_sim launch_jackal_solar.launch
+```
+
+2. Terminal 2: launch the semantic octomap node
+```
+cd ~/solar_ws
+source /opt/ros/noetic/setup.bash
+source devel/setup.bash
+roslaunch semantic_octomap semantic_octomap.launch
+```
+
+ <div style="display: flex; justify-content: center;">
+  <img src="gifs/sim1.gif" width="400" alt="Tracking 1" style="margin-right: 20px;">
+  <img src="gifs/sim2.gif" width="400" alt="Tracking 2">
+</div>
+ -->

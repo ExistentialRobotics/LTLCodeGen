@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+    <arg name="weights" default="yolov8x-seg.pt" />
+    <arg name="input_topic" default= "/husky_1/image" />
+    <arg name="output_topic" default="segmented_image" />
+    <arg name="class_topic" default="class_image" />
+    <node name="yolo_seg" pkg="yolo_seg" type="yolo_seg.py" output="screen">
+        <rosparam file="$(find yolo_seg)/params/color_id.yaml" />
+        <param name="weights" value="$(arg weights)" />
+        <param name="input_topic" value="$(arg input_topic)" />
+        <param name="output_topic" value="$(arg output_topic)" />
+        <param name="class_topic" value="$(arg class_topic)" />
+        
+    </node>
+
+</launch>

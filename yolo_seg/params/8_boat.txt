@@ -1,0 +1,5 @@
+The boat is associated with the id number 8. Boats are commonly found in bodies of
+  water such as lakes, rivers, and oceans. They are used for transportation, fishing,
+  recreation, and various other purposes. Boats come in different sizes and types,
+  ranging from small rowboats to large cruise ships.
+...

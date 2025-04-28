@@ -1,0 +1,17 @@
+<launch>
+
+    <arg name="world" default="office"/>
+    <arg name="want_gui" default="false"/>
+
+    <!-- Launch the corresponding environment -->
+    <include file="$(find jackal_solar_sim)/launch/launch_jackal_$(arg world).launch">
+        <arg name="want_gui" value="$(arg want_gui)"/>
+    </include>
+
+    <!-- Launch SSMI Mapping -->
+    <include file="$(find semantic_octomap)/launch/semantic_octomap.launch"/>
+
+    <!-- Rviz -->
+    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find jackal_solar_sim)/rviz/mapping.rviz"/>
+
+</launch>

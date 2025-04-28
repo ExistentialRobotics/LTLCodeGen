@@ -1,0 +1,5 @@
+The bear is associated with the id number 21. Bears are typically found in forests,
+  mountains, and other natural habitats. They are known for their strength, agility,
+  and sometimes unpredictable behavior. It is important to exercise caution and respect
+  when encountering bears in the wild to ensure both human and bear safety.
+...

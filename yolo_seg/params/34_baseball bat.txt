@@ -1,0 +1,5 @@
+The baseball bat is associated with the id number 34. Baseball bats are commonly found
+  on baseball fields, in sports equipment stores, and in the hands of players during
+  baseball games. They are used to hit the baseball during gameplay and are an essential
+  tool in the sport of baseball.
+...

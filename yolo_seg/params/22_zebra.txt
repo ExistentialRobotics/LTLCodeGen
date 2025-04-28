@@ -1,0 +1,6 @@
+The zebra is associated with the id number 22. Zebras are typically found in grasslands,
+  savannas, and open woodlands in Africa. Known for their black and white striped
+  coats, zebras are herbivores and are often seen grazing on grass. They are social
+  animals that live in groups called "harems" and are known for their unique and striking
+  appearance.
+...

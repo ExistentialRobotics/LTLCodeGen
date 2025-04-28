@@ -1,0 +1,5 @@
+The car is associated with the id number 2. Cars are commonly found on roads, in parking
+  lots, and in driveways. They are used for transportation purposes and come in various
+  shapes, sizes, and colors. Cars are a popular mode of transportation for individuals
+  and families, providing convenience and mobility in daily life.
+...

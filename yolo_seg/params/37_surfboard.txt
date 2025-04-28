@@ -1,0 +1,5 @@
+The surfboard is associated with the id number 37. Surfboards are commonly found at
+  beaches or surf shops, and are used for riding waves in the ocean. They come in
+  various shapes and sizes, designed for different skill levels and types of waves.
+  Surfing is a popular water sport enjoyed by people around the world.
+...

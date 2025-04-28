@@ -1,0 +1,5 @@
+The dining table is associated with the id number 60. Dining tables are commonly found
+  in dining rooms, kitchens, or living spaces, and are used for eating meals, socializing,
+  or working. They come in various shapes, sizes, and materials to suit different
+  preferences and interior styles.
+...

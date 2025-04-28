@@ -1,0 +1,6 @@
+The skateboard is associated with the id number 36. Skateboards are commonly found
+  in skate parks, on sidewalks, and in urban areas where individuals use them for
+  recreational purposes such as performing tricks and maneuvers. Skateboarding is
+  a popular sport and form of transportation for many people, especially among youth
+  and young adults.
+...

@@ -1,0 +1,5 @@
+The airplane is associated with the id number 4. Airplanes are commonly found at airports,
+  on runways, and in the sky. They are used for transportation, travel, and cargo
+  delivery, and are known for their ability to fly long distances at high speeds.
+  Airplanes play a crucial role in connecting people and goods around the world.
+...

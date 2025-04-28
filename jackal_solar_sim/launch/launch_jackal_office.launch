@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Following setting may result in CONFLICT, UNTESTED -->
+  <arg name="models_path" default="$(find jackal_solar_sim)/models"/>
+  <env name="IGN_GAZEBO_RESOURCE_PATH" value="$(arg models_path):$(optenv IGN_GAZEBO_RESOURCE_PATH '')"/>
+
+<!-- World -->
+  <arg name = "world" default = "office"/>
+  <arg name="ign_args" default=""/>
+  <arg name="want_gui" default="false"/>
+
+  <!-- remove -v 4 to stop verbose, or reduce 4-->
+  <include file="$(find ros_ign_gazebo)/launch/ign_gazebo.launch">
+
+    <!-- with gui-->
+    <arg name="ign_args" value=" -r -v 0 $(find jackal_solar_sim)/models/$(arg world).sdf" if="$(arg want_gui)"/>
+
+    <!-- no gui -->
+    <arg name="ign_args" value=" -r -s -v 0 $(find jackal_solar_sim)/models/$(arg world).sdf" unless="$(arg want_gui)"/>
+
+  </include>
+
+<!-- Robot 1 -->
+  <include file="$(find jackal_solar_sim)/launch/semantic_init.launch">
+    <arg name = "world" value ="$(arg world)" />
+    <arg name="robot_name" value="husky_1"/>
+    <arg name="x" value="32"/>
+    <arg name="y" value="12"/>
+    <arg name="z" value="0.2"/>
+    <arg name="yaw" value="1.5"/>
+  </include>
+
+</launch>

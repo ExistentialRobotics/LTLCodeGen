@@ -1,0 +1,4 @@
+The microwave is associated with the id number 68. Microwaves are commonly found in
+  kitchens and are used for quickly heating up or cooking food. They are a convenient
+  appliance for busy individuals or those looking to save time in meal preparation.
+...

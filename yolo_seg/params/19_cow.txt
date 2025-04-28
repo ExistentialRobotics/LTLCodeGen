@@ -1,0 +1,5 @@
+The cow is associated with the id number 19. Cows are commonly found on farms, grazing
+  in pastures or barns. They are domesticated animals that are often raised for their
+  milk, meat, and other byproducts. Cows are known for their gentle nature and are
+  an important part of agriculture and food production worldwide.
+...

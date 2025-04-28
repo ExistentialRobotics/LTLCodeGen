@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+    <arg name="radius" default="2" />
+    <arg name="ap_dict" default= "/ap_dict" />
+    <arg name="semantic_map" default="/semantic_map" />
+    <arg name="label_map" default="/label_map" />
+    <arg name="test_package" default="true" />
+
+
+        <node pkg="label_map" type="ap_pub.py" name="ap_dict_publisher" output="screen" if = "$(arg test_package)">
+            <rosparam file="$(find label_map)/config/message.yaml"/>
+            <param name="topic" value="$(arg ap_dict)"/>
+            <param name="rate" value="1"/>
+        </node>
+
+    <node pkg="label_map" type="semantic_slice_pub.py" name="semantic_2d_slice" output="screen">
+        <param name="some_param" value="example_value" />
+    </node>
+
+    <node name="ros_label_map" pkg="label_map" type="label_map_ros.py" output="screen">
+        <param name="radius" value="$(arg radius)" />
+        <param name="ap_dict" value="$(arg ap_dict)" />
+        <param name="semantic_map" value="$(arg semantic_map)" />
+        <param name="label_map" value="$(arg label_map)" />
+    </node>
+
+</launch>

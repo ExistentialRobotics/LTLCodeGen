@@ -1,0 +1,7 @@
+The elephant is associated with the id number 20. Elephants are large mammals typically
+  found in savannas, forests, and grasslands in Africa and Asia. They are known for
+  their long trunks, tusks, and large ears. Elephants are social animals that live
+  in herds and are known for their intelligence, memory, and strong family bonds.
+  In some cultures, elephants are considered symbols of wisdom, strength, and good
+  luck.
+...

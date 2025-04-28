@@ -1,0 +1,6 @@
+The bench is associated with the id number 13. Benches are commonly found in parks,
+  outdoor spaces, and public areas for people to sit and relax. They provide seating
+  for individuals to rest, socialize, or enjoy the surrounding environment. Benches
+  come in various designs and materials, such as wood, metal, or concrete, and can
+  be seen in urban and natural settings alike.
+...

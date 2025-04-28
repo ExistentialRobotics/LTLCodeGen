@@ -1,0 +1,6 @@
+The sandwich is associated with the id number 48. Sandwiches are commonly found in
+  restaurants, cafes, delis, and homes. They are a popular choice for a quick and
+  convenient meal, consisting of various ingredients such as bread, meat, cheese,
+  vegetables, and condiments. Sandwiches can be customized to suit individual preferences
+  and are a versatile option for breakfast, lunch, or dinner.
+...

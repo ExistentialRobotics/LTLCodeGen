@@ -1,0 +1,5 @@
+The hair drier is associated with the id number 78. Hair driers are commonly found
+  in bathrooms, salons, and hotels. They are used to blow dry and style hair quickly
+  and efficiently. Hair driers come in various sizes and designs, with adjustable
+  heat and speed settings to cater to different hair types and styling preferences.
+...

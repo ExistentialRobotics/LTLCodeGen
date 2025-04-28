@@ -1,0 +1,6 @@
+The snowboard is associated with the id number 31. Snowboards are commonly used in
+  winter sports such as snowboarding, which takes place on snowy slopes or mountains.
+  Snowboarders use these boards to glide down the snow-covered terrain, performing
+  various tricks and maneuvers along the way. Snowboarding is a popular recreational
+  activity and competitive sport enjoyed by people of all ages.
+...

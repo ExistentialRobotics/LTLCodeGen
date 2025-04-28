@@ -1,0 +1,596 @@
+'The person is associated with the id number 0. People can be found in various places
+  such as homes, workplaces, schools, and public spaces. They are living beings who
+  interact with each other and their surroundings, contributing to the diversity and
+  vibrancy of society.
+
+
+  '
+'The bicycle is associated with the id number 1. Bicycles are commonly found on roads,
+  bike paths, and parks, and are used for transportation, exercise, and recreation.
+  They are popular for their eco-friendly nature and health benefits.
+
+
+  '
+'The fire hydrant is associated with the id number 10. Fire hydrants are typically
+  found on sidewalks, near roads, or in public spaces, and are used for firefighting
+  purposes. They are easily recognizable by their bright colors and distinctive shapes,
+  ensuring quick access for firefighters in case of an emergency.
+
+
+  '
+'The stop sign is associated with the id number 11. Stop signs are commonly found
+  at intersections or road junctions to control traffic flow. They are crucial for
+  ensuring road safety by signaling drivers to come to a complete stop before proceeding.
+  Stop signs are typically octagonal in shape and have a bright red color with white
+  lettering, making them easily recognizable to drivers.
+
+
+  '
+'The parking meter is associated with the id number 12. Parking meters are commonly
+  found along streets and in parking lots, where they are used to collect fees for
+  parking. They help regulate parking spaces and ensure turnover for businesses and
+  residents in busy areas.
+
+
+  '
+'The bench is associated with the id number 13. Benches are commonly found in parks,
+  outdoor spaces, and public areas for people to sit and relax. They provide seating
+  for individuals to rest, socialize, or enjoy the surrounding environment. Benches
+  come in various designs and materials, such as wood, metal, or concrete, and can
+  be seen in urban and natural settings alike.
+
+
+  '
+'The bird is associated with the id number 14. Birds can be found in various habitats
+  such as forests, parks, gardens, and even urban areas. They are known for their
+  ability to fly and their diverse colors and songs. Birdwatching is a popular hobby
+  for many people who enjoy observing and identifying different species of birds in
+  their natural environments.
+
+
+  '
+'The cat is associated with the id number 15. Cats are commonly found in households
+  as pets and are known for their playful and independent nature. They are often kept
+  indoors but can also be seen roaming in neighborhoods or lounging in sunny spots.
+  Cats are beloved for their companionship and ability to provide comfort to their
+  owners.
+
+
+  '
+'The dog is associated with the id number 16. Dogs are commonly found as pets in households,
+  in parks, and sometimes as service animals. They are known for their loyalty, companionship,
+  and playful nature, making them popular animals to have as part of the family.
+
+
+  '
+'The horse is associated with the id number 17. Horses are commonly found on farms,
+  ranches, and in equestrian facilities. They are often used for riding, racing, and
+  other recreational activities, as well as for agricultural work. Horses are known
+  for their strength, speed, and beauty, making them popular animals for various purposes.
+
+
+  '
+'The sheep is associated with the id number 18. Sheep are commonly found on farms
+  or grazing in fields. They are known for their wool and are often raised for their
+  meat and milk. Sheep are social animals that typically live in flocks and are known
+  for their gentle nature.
+
+
+  '
+'The cow is associated with the id number 19. Cows are commonly found on farms, grazing
+  in pastures or barns. They are domesticated animals that are often raised for their
+  milk, meat, and other byproducts. Cows are known for their gentle nature and are
+  an important part of agriculture and food production worldwide.
+
+
+  '
+'The car is associated with the id number 2. Cars are commonly found on roads, in
+  parking lots, and in driveways. They are used for transportation purposes and come
+  in various shapes, sizes, and colors. Cars are a popular mode of transportation
+  for individuals and families, providing convenience and mobility in daily life.
+
+
+  '
+'The elephant is associated with the id number 20. Elephants are large mammals typically
+  found in savannas, forests, and grasslands in Africa and Asia. They are known for
+  their long trunks, tusks, and large ears. Elephants are social animals that live
+  in herds and are known for their intelligence, memory, and strong family bonds.
+  In some cultures, elephants are considered symbols of wisdom, strength, and good
+  luck.
+
+
+  '
+'The bear is associated with the id number 21. Bears are typically found in forests,
+  mountains, and other natural habitats. They are known for their strength, agility,
+  and sometimes unpredictable behavior. It is important to exercise caution and respect
+  when encountering bears in the wild to ensure both human and bear safety.
+
+
+  '
+'The zebra is associated with the id number 22. Zebras are typically found in grasslands,
+  savannas, and open woodlands in Africa. Known for their black and white striped
+  coats, zebras are herbivores and are often seen grazing on grass. They are social
+  animals that live in groups called "harems" and are known for their unique and striking
+  appearance.
+
+
+  '
+'The giraffe is associated with the id number 23. Giraffes are tall, majestic animals
+  typically found in savannas and grasslands in Africa. Known for their long necks
+  and unique spotted patterns, giraffes are herbivores and use their height to reach
+  leaves and branches high up in trees. They are often seen in wildlife reserves and
+  national parks, where they roam freely in their natural habitat.
+
+
+  '
+'The backpack is associated with the id number 24. Backpacks are commonly used for
+  carrying items such as books, laptops, or personal belongings. They are often seen
+  in schools, on hiking trails, or in urban environments where people need to transport
+  their belongings conveniently on their backs.
+
+
+  '
+'The umbrella is associated with the id number 25. Umbrellas are commonly used to
+  provide protection from rain or sunlight and can often be found in places such as
+  homes, offices, beaches, and outdoor events. They come in various sizes, colors,
+  and designs to suit different preferences and purposes.
+
+
+  '
+'The handbag is associated with the id number 26. Handbags are commonly found in retail
+  stores, fashion boutiques, and carried by individuals as a fashion accessory or
+  for practical purposes. They come in various styles, sizes, and materials to suit
+  different preferences and needs.
+
+
+  '
+'The tie is associated with the id number 27. Ties are commonly worn as part of formal
+  attire, such as suits, for professional or special occasions. They are often seen
+  in office settings, business meetings, weddings, and other formal events, adding
+  a touch of elegance and sophistication to the wearer''s outfit.
+
+
+  '
+'The suitcase is associated with the id number 28. Suitcases are commonly found in
+  airports, train stations, hotels, and other travel-related locations. They are used
+  to store and transport clothing, personal items, and other belongings while traveling.
+  Suitcases come in various sizes, styles, and materials to suit different travel
+  needs.
+
+
+  '
+'The frisbee is associated with the id number 29. Frisbees are commonly found in parks,
+  beaches, and recreational areas where people gather to play outdoor games. They
+  are lightweight, flying discs that are thrown back and forth for fun and entertainment.
+  Frisbees are popular among people of all ages and are often used in casual games
+  or competitive sports like ultimate frisbee.
+
+
+  '
+'The motorcycle is associated with the id number 3. Motorcycles are commonly seen
+  on roads and highways, used as a mode of transportation for individuals. They are
+  known for their speed, agility, and ability to navigate through traffic easily.
+  Motorcycles are popular among thrill-seekers and commuters looking for a more efficient
+  way to travel.
+
+
+  '
+'The skis are associated with the id number 30. Skis are commonly used in snowy or
+  mountainous regions for recreational activities such as skiing and snowboarding.
+  They are typically found at ski resorts, winter sports facilities, or in the homes
+  of outdoor enthusiasts. Skis come in various shapes and sizes, designed for different
+  types of skiing styles and terrains.
+
+
+  '
+'The snowboard is associated with the id number 31. Snowboards are commonly used in
+  winter sports such as snowboarding, which takes place on snowy slopes or mountains.
+  Snowboarders use these boards to glide down the snow-covered terrain, performing
+  various tricks and maneuvers along the way. Snowboarding is a popular recreational
+  activity and competitive sport enjoyed by people of all ages.
+
+
+  '
+'The sports ball is associated with the id number 32. Sports balls are commonly found
+  on sports fields, courts, and playgrounds where various sports and recreational
+  activities take place. They come in different shapes, sizes, and materials depending
+  on the sport being played, such as soccer, basketball, football, tennis, and more.
+  Sports balls are essential equipment for playing sports and are designed to be durable
+  and suitable for specific game requirements.
+
+
+  '
+'The kite is associated with the id number 33. Kites are often seen flying in open
+  fields, parks, or beaches. They are popular recreational items that are flown by
+  people of all ages, especially during windy days. Kites come in various shapes,
+  sizes, and designs, making them a fun and colorful sight in the sky.
+
+
+  '
+'The baseball bat is associated with the id number 34. Baseball bats are commonly
+  found on baseball fields, in sports equipment stores, and in the hands of players
+  during baseball games. They are used to hit the baseball during gameplay and are
+  an essential tool in the sport of baseball.
+
+
+  '
+'The baseball glove is associated with the id number 35. Baseball gloves are commonly
+  used in the sport of baseball to catch and field balls. They are typically found
+  on baseball fields, in sports stores, and in the hands of players during games and
+  practices. Baseball gloves come in various sizes and styles to accommodate different
+  positions and player preferences.
+
+
+  '
+'The skateboard is associated with the id number 36. Skateboards are commonly found
+  in skate parks, on sidewalks, and in urban areas where individuals use them for
+  recreational purposes such as performing tricks and maneuvers. Skateboarding is
+  a popular sport and form of transportation for many people, especially among youth
+  and young adults.
+
+
+  '
+'The surfboard is associated with the id number 37. Surfboards are commonly found
+  at beaches or surf shops, and are used for riding waves in the ocean. They come
+  in various shapes and sizes, designed for different skill levels and types of waves.
+  Surfing is a popular water sport enjoyed by people around the world.
+
+
+  '
+'The tennis racket is associated with the id number 38. Tennis rackets are commonly
+  found on tennis courts, sports stores, and in the hands of tennis players. They
+  are essential equipment for playing tennis, as they are used to hit the tennis ball
+  back and forth during a match. Tennis rackets come in various sizes, shapes, and
+  materials to suit different playing styles and preferences.
+
+
+  '
+'The bottle is associated with the id number 39. Bottles can be found in various places
+  such as homes, restaurants, stores, and recycling centers. They are commonly used
+  for storing and transporting liquids such as water, beverages, and cleaning products.
+  Bottles come in different shapes, sizes, and materials, making them versatile containers
+  for a wide range of purposes.
+
+
+  '
+'The airplane is associated with the id number 4. Airplanes are commonly found at
+  airports, on runways, and in the sky. They are used for transportation, travel,
+  and cargo delivery, and are known for their ability to fly long distances at high
+  speeds. Airplanes play a crucial role in connecting people and goods around the
+  world.
+
+
+  '
+'The wine glass is associated with the id number 40. Wine glasses are commonly found
+  in dining settings, such as restaurants, bars, and homes. They are used for serving
+  and enjoying various types of wine, and come in different shapes and sizes to enhance
+  the drinking experience. Wine glasses are often made of glass or crystal, and their
+  design can affect the aroma and taste of the wine being served.
+
+
+  '
+'The cup is associated with the id number 41. Cups are commonly found in kitchens,
+  restaurants, and coffee shops. They are used for holding and drinking beverages
+  such as coffee, tea, water, or juice. Cups come in various sizes, shapes, and materials,
+  making them versatile for different purposes.
+
+
+  '
+'The fork is associated with the id number 42. Forks are commonly found in dining
+  settings, such as restaurants, homes, and cafeterias. They are essential utensils
+  used for picking up and eating food, particularly when dining on dishes that require
+  stabbing or spearing food items.
+
+
+  '
+'The knife is associated with the id number 43. Knives are commonly found in kitchens,
+  restaurants, and other food preparation areas. They are essential tools for cutting,
+  slicing, and chopping ingredients during cooking. Knives come in various shapes
+  and sizes, each serving a specific purpose in the culinary world.
+
+
+  '
+'The spoon is associated with the id number 44. Spoons are commonly found in kitchens,
+  dining areas, and restaurants. They are essential utensils used for eating, stirring,
+  and serving food. Spoons come in various sizes and shapes, with some specifically
+  designed for different purposes such as soup spoons, dessert spoons, and serving
+  spoons.
+
+
+  '
+'The bowl is associated with the id number 45. Bowls are commonly found in kitchens
+  and dining areas, and are used for serving and consuming food and beverages. They
+  come in various sizes, shapes, and materials, and are essential kitchenware for
+  everyday use.
+
+
+  '
+'The banana is associated with the id number 46. Bananas are commonly found in grocery
+  stores, fruit stands, and kitchens. They are a popular fruit known for their yellow
+  color, sweet taste, and high potassium content. Bananas are versatile and can be
+  eaten on their own, added to smoothies, or used in baking recipes.
+
+
+  '
+'The apple is associated with the id number 47. Apples are commonly found in grocery
+  stores, markets, orchards, and in people''s homes. They are a popular fruit known
+  for their sweet and crisp taste, and are often used in various recipes, eaten as
+  a snack, or used to make beverages such as apple juice or cider. Apples are also
+  a symbol of health and are known for their nutritional benefits.
+
+
+  '
+'The sandwich is associated with the id number 48. Sandwiches are commonly found in
+  restaurants, cafes, delis, and homes. They are a popular choice for a quick and
+  convenient meal, consisting of various ingredients such as bread, meat, cheese,
+  vegetables, and condiments. Sandwiches can be customized to suit individual preferences
+  and are a versatile option for breakfast, lunch, or dinner.
+
+
+  '
+'The color orange is associated with the id number 49. Orange is a vibrant and warm
+  color often used in various contexts such as traffic cones, safety vests, fruits
+  like oranges, and autumn leaves. It is known for its energy and creativity, and
+  is commonly used to grab attention or convey a sense of warmth and positivity.
+
+
+  '
+'The bus is associated with the id number 5. Buses are commonly seen on roads and
+  streets, providing public transportation for passengers to travel from one place
+  to another. They are often used for commuting, school transportation, and long-distance
+  travel, offering a convenient and cost-effective way to get around.
+
+
+  '
+'The broccoli is associated with the id number 50. Broccoli is a vegetable commonly
+  found in grocery stores, farmers markets, and in home kitchens. It is known for
+  its green color and tree-like appearance, and is often used in various culinary
+  dishes for its nutritional benefits.
+
+
+  '
+'The carrot is associated with the id number 51. Carrots are commonly found in grocery
+  stores, farmers markets, and home gardens. They are a versatile vegetable that can
+  be eaten raw, cooked, or juiced, and are known for their bright orange color and
+  sweet flavor. Carrots are often used in salads, soups, stews, and as a healthy snack
+  option.
+
+
+  '
+'The hot dog is associated with the id number 52. Hot dogs are commonly found at sporting
+  events, picnics, and food stands. They are a popular fast food item and are often
+  enjoyed with condiments such as ketchup, mustard, and relish.
+
+
+  '
+'The pizza is associated with the id number 53. Pizzas are commonly found in restaurants,
+  pizzerias, and homes. They are a popular food choice enjoyed by people of all ages
+  and can come in a variety of toppings and styles, such as thin crust, deep dish,
+  or stuffed crust. Pizzas are often shared among friends and family during gatherings
+  or celebrations.
+
+
+  '
+'The donut is associated with the id number 54. Donuts are popular sweet treats that
+  are commonly found in bakeries, coffee shops, and supermarkets. They come in a variety
+  of flavors and toppings, making them a favorite indulgence for many people. Donuts
+  are often enjoyed as a snack or dessert, and are best paired with a hot cup of coffee
+  or tea.
+
+
+  '
+'The cake is associated with the id number 55. Cakes are commonly found at celebrations
+  such as birthdays, weddings, and other special occasions. They are often decorated
+  with frosting, icing, and other toppings, and come in a variety of flavors and designs.
+  Cakes are a popular dessert choice and are enjoyed by people of all ages.
+
+
+  '
+'The chair is associated with the id number 56. Chairs are commonly found in homes,
+  offices, schools, and various other settings where people need to sit down. They
+  come in a variety of styles, materials, and sizes, providing comfort and support
+  for individuals while they work, relax, or dine.
+
+
+  '
+'The couch is associated with the id number 57. Couches are commonly found in living
+  rooms, family rooms, and lounges, providing a comfortable seating option for relaxation
+  and socializing. They come in various sizes, styles, and materials to suit different
+  preferences and interior design aesthetics.
+
+
+  '
+'The potted plant is associated with the id number 58. Potted plants are commonly
+  found indoors, in homes, offices, and other indoor spaces. They are used for decoration,
+  air purification, and to bring a touch of nature into indoor environments. Potted
+  plants come in a variety of shapes, sizes, and types, making them a versatile and
+  popular choice for indoor decor.
+
+
+  '
+'The bed is associated with the id number 59. Beds are commonly found in bedrooms,
+  hotels, hospitals, and other living spaces where people sleep or rest. They provide
+  a comfortable surface for sleeping and relaxation, and come in various sizes and
+  styles to suit different preferences and needs.
+
+
+  '
+'The train is associated with the id number 6. Trains are commonly found on railway
+  tracks, transporting passengers or goods from one place to another. They are a popular
+  mode of transportation for long distances and are known for their efficiency and
+  convenience. Trains can be seen in train stations, on bridges, and traveling through
+  various landscapes.
+
+
+  '
+'The dining table is associated with the id number 60. Dining tables are commonly
+  found in dining rooms, kitchens, or living spaces, and are used for eating meals,
+  socializing, or working. They come in various shapes, sizes, and materials to suit
+  different preferences and interior styles.
+
+
+  '
+'The toilet is associated with the id number 61. Toilets are commonly found in bathrooms,
+  restrooms, and public facilities. They are essential for personal hygiene and waste
+  disposal. Toilets come in various designs and styles, but their primary function
+  remains the same - providing a sanitary and convenient way to dispose of bodily
+  waste.
+
+
+  '
+'The TV is associated with the id number 62. TVs are commonly found in living rooms,
+  bedrooms, and entertainment areas. They are used for watching television shows,
+  movies, playing video games, and displaying other forms of media. TVs come in various
+  sizes and styles, and are a popular form of entertainment in many households.
+
+
+  '
+'The laptop is associated with the id number 63. Laptops are portable computers that
+  are commonly used in various settings such as offices, schools, and homes. They
+  are versatile devices that allow users to work, study, or entertain themselves on
+  the go. Laptops typically have a screen, keyboard, and touchpad or mouse for input,
+  and are powered by a rechargeable battery. They are essential tools for many people
+  in today''s digital age.
+
+
+  '
+'The mouse is associated with the id number 64. Mice are commonly found in homes,
+  offices, and other indoor spaces. They are small rodents known for their ability
+  to gnaw on various materials and contaminate food. Mice are often considered pests
+  and can be a nuisance if not properly controlled.
+
+
+  '
+'The remote is associated with the id number 65. Remotes are commonly found in living
+  rooms or entertainment areas, and are used to control electronic devices such as
+  televisions, DVD players, and sound systems. They provide convenience and ease of
+  use for operating various devices from a distance.
+
+
+  '
+'The keyboard is associated with the id number 66. Keyboards are commonly found in
+  offices, schools, and homes, and are used to input data into computers or other
+  electronic devices. Keyboards come in various sizes and layouts, with keys for letters,
+  numbers, symbols, and functions. They are essential tools for typing, gaming, and
+  navigating digital interfaces.
+
+
+  '
+'The cell phone is associated with the id number 67. Cell phones are commonly found
+  in people''s pockets, purses, or hands, and are used for communication, browsing
+  the internet, taking photos, and various other tasks. They have become an essential
+  part of modern life, allowing individuals to stay connected and access information
+  on the go.
+
+
+  '
+'The microwave is associated with the id number 68. Microwaves are commonly found
+  in kitchens and are used for quickly heating up or cooking food. They are a convenient
+  appliance for busy individuals or those looking to save time in meal preparation.
+
+
+  '
+'The oven is associated with the id number 69. Ovens are commonly found in kitchens
+  and are used for baking, roasting, and cooking food. They come in various types
+  such as gas, electric, and convection ovens, and are essential appliances for preparing
+  meals in households and commercial kitchens.
+
+
+  '
+'The truck is associated with the id number 7. Trucks can be commonly seen on roads,
+  highways, construction sites, and industrial areas. They are versatile vehicles
+  used for transporting goods, materials, equipment, and people. Trucks come in various
+  sizes and types, such as pickup trucks, semi-trucks, dump trucks, and tow trucks,
+  each serving different purposes in different industries.
+
+
+  '
+'The toaster is associated with the id number 70. Toasters are commonly found in kitchens
+  and are used to toast bread or other food items. They are a staple appliance for
+  breakfast preparation and are known for their convenience and speed in toasting
+  bread to a desired level of crispiness.
+
+
+  '
+'The sink is associated with the id number 71. Sinks are commonly found in bathrooms,
+  kitchens, and utility rooms. They are used for washing hands, dishes, and other
+  items. Sinks come in various sizes and styles, and are an essential fixture in any
+  household or commercial space for maintaining cleanliness and hygiene.
+
+
+  '
+'The refrigerator is associated with the id number 72. Refrigerators are commonly
+  found in kitchens and are used for storing and preserving food at low temperatures
+  to prevent spoilage. They are essential appliances in households and commercial
+  establishments for keeping food fresh and extending its shelf life.
+
+
+  '
+'The book is associated with the id number 73. Books can be found in libraries, bookstores,
+  schools, and homes. They are used for reading, learning, entertainment, and reference
+  purposes. Books come in various genres, sizes, and formats, and are essential tools
+  for education and knowledge dissemination.
+
+
+  '
+'The clock is associated with the id number 74. Clocks can be found in various locations
+  such as homes, schools, offices, and public spaces. They are used to tell time and
+  are essential for keeping track of schedules and appointments. Clocks come in different
+  styles and designs, ranging from analog to digital, and play a crucial role in our
+  daily lives.
+
+
+  '
+'The vase is associated with the id number 75. Vases are commonly found in homes,
+  offices, and other indoor spaces, used for holding flowers or decorative items.
+  They come in various shapes, sizes, and materials, adding a touch of elegance and
+  beauty to any room.
+
+
+  '
+'The scissors are associated with the id number 76. Scissors are commonly found in
+  offices, schools, and households. They are used for cutting paper, fabric, and other
+  materials with precision. Scissors come in various sizes and designs, making them
+  versatile tools for a wide range of tasks.
+
+
+  '
+'The teddy bear is associated with the id number 77. Teddy bears are often found in
+  children''s bedrooms, nurseries, toy stores, and gift shops. They are popular stuffed
+  animals that are known for providing comfort and companionship to children of all
+  ages. Teddy bears come in various sizes, colors, and designs, making them a beloved
+  and timeless toy for many people.
+
+
+  '
+'The hair drier is associated with the id number 78. Hair driers are commonly found
+  in bathrooms, salons, and hotels. They are used to blow dry and style hair quickly
+  and efficiently. Hair driers come in various sizes and designs, with adjustable
+  heat and speed settings to cater to different hair types and styling preferences.
+
+
+  '
+'The toothbrush is associated with the id number 79. Toothbrushes are commonly found
+  in bathrooms and are used for maintaining oral hygiene by brushing teeth. They come
+  in various shapes, sizes, and bristle types to cater to different preferences and
+  dental needs. It is recommended to replace toothbrushes every few months to ensure
+  effective cleaning.
+
+
+  '
+'The boat is associated with the id number 8. Boats are commonly found in bodies of
+  water such as lakes, rivers, and oceans. They are used for transportation, fishing,
+  recreation, and various other purposes. Boats come in different sizes and types,
+  ranging from small rowboats to large cruise ships.
+
+
+  '
+'The traffic light is associated with the id number 9. Traffic lights are commonly
+  found at intersections, pedestrian crossings, and other areas where traffic needs
+  to be controlled. They play a crucial role in regulating the flow of vehicles and
+  ensuring road safety for both drivers and pedestrians. Traffic lights typically
+  have three colored lights (red, yellow, and green) that signal when to stop, slow
+  down, or go.
+
+
+  '
