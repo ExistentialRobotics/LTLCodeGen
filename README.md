@@ -1,6 +1,6 @@
 # LTLCodeGen
 
-This is the repository that contains source code for the [LTLCodeGen website](https://existentialrobotics.org/ltlcodegen_project_page/).
+This is the repository that contains source code for the [LTLCodeGen website](https://existentialrobotics.org/LTLCodeGen/).
 
 If you find Nerfies useful for your work please cite:
 ```
