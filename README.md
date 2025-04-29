@@ -1,14 +1,17 @@
-# Nerfies
+# LTLCodeGen
 
-This is the repository that contains source code for the [Nerfies website](https://nerfies.github.io).
+This is the repository that contains source code for the [LTLCodeGen website](https://existentialrobotics.org/ltlcodegen_project_page/).
 
 If you find Nerfies useful for your work please cite:
 ```
-@article{park2021nerfies
-  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
-  title     = {Nerfies: Deformable Neural Radiance Fields},
-  journal   = {ICCV},
-  year      = {2021},
+@misc{rabiei2025ltlcodegencodegenerationsyntactically,
+      title={LTLCodeGen: Code Generation of Syntactically Correct Temporal Logic for Robot Task Planning}, 
+      author={Behrad Rabiei and Mahesh Kumar A. R. and Zhirui Dai and Surya L. S. R. Pilla and Qiyue Dong and Nikolay Atanasov},
+      year={2025},
+      eprint={2503.07902},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO},
+      url={https://arxiv.org/abs/2503.07902}, 
 }
 ```
 
