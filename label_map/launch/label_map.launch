@@ -3,8 +3,10 @@
 
     <arg name="radius" default="2" />
     <arg name="ap_dict" default= "/ap_dict" />
+    <arg name="ap_id" default= "/ap_id" />
     <arg name="semantic_map" default="/semantic_map" />
     <arg name="label_map" default="/label_map" />
+    <arg name="label_map_viz_topic" default="/label_map_viz" />
     <arg name="test_package" default="true" />
 
 
@@ -15,14 +17,15 @@
         </node>
 
     <node pkg="label_map" type="semantic_slice_pub.py" name="semantic_2d_slice" output="screen">
-        <param name="some_param" value="example_value" />
     </node>
 
     <node name="ros_label_map" pkg="label_map" type="label_map_ros.py" output="screen">
         <param name="radius" value="$(arg radius)" />
         <param name="ap_dict" value="$(arg ap_dict)" />
+        <param name="ap_id" value="$(arg ap_id)" />
         <param name="semantic_map" value="$(arg semantic_map)" />
         <param name="label_map" value="$(arg label_map)" />
+        <param name="label_map_viz_topic" value="$(arg label_map_viz_topic)" />
     </node>
 
 </launch>
