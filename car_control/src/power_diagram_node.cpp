@@ -149,7 +149,7 @@ void PowerDiagramControlNode::onInit(void) {
   position_cmd_sub_ = n.subscribe("/position_cmd", 10, &PowerDiagramControlNode::position_cmd_callback, this,
                                   ros::TransportHints().tcpNoDelay());
   // Setup Publisher
-  dd_command_pub = n.advertise<geometry_msgs::Twist>("/husky_1/cmd_vel", 10);
+  dd_command_pub = n.advertise<geometry_msgs::Twist>("/jackal1/cmd_vel", 10);
 
   // Read in Gains Config.
   n.param("/power_diagram_node/gains/ka", ka, 0.0);
