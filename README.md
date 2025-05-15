@@ -1,7 +1,19 @@
-# SOLAR
-Semantic Octomap-based LLM-guided Autonomous Robot
+# LTLCodeGen: Code Generation of Syntactically Correct Temporal Logic for Robot Task Planning
 
-The objective of this project is to develop an autonomous ground vehicle capable of executing tasks based on voice commands. The project encompasses several stages, including world view segmentation to generate a semantic octomap, converting speech to Linear Temporal Logic (LTL) using a Large Language Model (LLM), and planning.
+[**Project Page**](https://existentialrobotics.org/LTLCodeGen/) |[**ArXiv**](https://arxiv.org/abs/2503.07902) |[**Video**](https://www.youtube.com/watch?v=T4Up0Uy2Ec4)
+
+We proposed a new framework to explore and search for the language descriptive targets in unknown environment based on Large Vision Language Model. Our work is based on [Concept-Graph](https://github.com/concept-graphs/concept-graphs?tab=readme-ov-file) and [L3MVN](https://sites.google.com/view/l3mvn), implemented in PyTorch. Part of this work was conducted during the first author’s internship at Tencent Robotics X.
+
+**Author:** Behrad Rabiei<sup>*, Mahesh Kumar A.R.<sup>*, Zhirui Dai, Surya L.S.R. Pilla, Qiyue Dong, Nikolay Atanasov
+
+**Affiliation:** Contextual Robotics Institute, University of California San Diego
+
+
+## Abstract
+
+This paper focuses on planning robot navigation tasks from natural language specifications. We develop a modular approach, where a large language model (LLM) translates the natural language instructions into a linear temporal logic (LTL) formula with propositions defined by object classes in a semantic occupancy map. The LTL formula and the semantic occupancy map are provided to a motion planning algorithm to generate a collision-free robot path that satisfies the natural language instructions. Our main contribution is LTLCodeGen, a method to translate natural language to syntactically correct LTL using code generation. We demonstrate the complete task planning method in real-world experiments involving human speech to provide navigation instructions to a mobile robot. We also thoroughly evaluate our approach in simulated and real-world experiments in comparison to end-to-end LLM task planning and state-of-the-art LLM-to-LTL translation methods.
+
+![framework](img/framework.png)
 
 ## System requirement
 1. Ubuntu 20.04 (Focal Fossa)
