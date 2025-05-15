@@ -4,7 +4,7 @@
 
 We proposed a new framework to explore and search for the language descriptive targets in unknown environment based on Large Vision Language Model. Our work is based on [Concept-Graph](https://github.com/concept-graphs/concept-graphs?tab=readme-ov-file) and [L3MVN](https://sites.google.com/view/l3mvn), implemented in PyTorch. Part of this work was conducted during the first author’s internship at Tencent Robotics X.
 
-**Author:** Behrad Rabiei<sup>*, Mahesh Kumar A.R.<sup>*, Zhirui Dai, Surya L.S.R. Pilla, Qiyue Dong, Nikolay Atanasov
+**Author:** Behrad Rabiei<sup>* </sup>, Mahesh Kumar A.R.<sup>* </sup>, Zhirui Dai, Surya L.S.R. Pilla, Qiyue Dong, Nikolay Atanasov
 
 **Affiliation:** Contextual Robotics Institute, University of California San Diego
 
@@ -13,7 +13,7 @@ We proposed a new framework to explore and search for the language descriptive t
 
 This paper focuses on planning robot navigation tasks from natural language specifications. We develop a modular approach, where a large language model (LLM) translates the natural language instructions into a linear temporal logic (LTL) formula with propositions defined by object classes in a semantic occupancy map. The LTL formula and the semantic occupancy map are provided to a motion planning algorithm to generate a collision-free robot path that satisfies the natural language instructions. Our main contribution is LTLCodeGen, a method to translate natural language to syntactically correct LTL using code generation. We demonstrate the complete task planning method in real-world experiments involving human speech to provide navigation instructions to a mobile robot. We also thoroughly evaluate our approach in simulated and real-world experiments in comparison to end-to-end LLM task planning and state-of-the-art LLM-to-LTL translation methods.
 
-![framework](img/framework.png)
+![framework](gifs/SystemDiagram.png)
 
 ## System requirement
 1. Ubuntu 20.04 (Focal Fossa)
