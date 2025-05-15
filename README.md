@@ -2,8 +2,6 @@
 
 [**Project Page**](https://existentialrobotics.org/LTLCodeGen/) |[**ArXiv**](https://arxiv.org/abs/2503.07902) |[**Video**](https://www.youtube.com/watch?v=T4Up0Uy2Ec4)
 
-We proposed a new framework to explore and search for the language descriptive targets in unknown environment based on Large Vision Language Model. Our work is based on [Concept-Graph](https://github.com/concept-graphs/concept-graphs?tab=readme-ov-file) and [L3MVN](https://sites.google.com/view/l3mvn), implemented in PyTorch. Part of this work was conducted during the first author’s internship at Tencent Robotics X.
-
 **Author:** Behrad Rabiei<sup>* </sup>, Mahesh Kumar A.R.<sup>* </sup>, Zhirui Dai, Surya L.S.R. Pilla, Qiyue Dong, Nikolay Atanasov
 
 **Affiliation:** Contextual Robotics Institute, University of California San Diego
