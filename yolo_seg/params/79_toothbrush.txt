@@ -1,6 +1,0 @@
-The toothbrush is associated with the id number 79. Toothbrushes are commonly found
-  in bathrooms and are used for maintaining oral hygiene by brushing teeth. They come
-  in various shapes, sizes, and bristle types to cater to different preferences and
-  dental needs. It is recommended to replace toothbrushes every few months to ensure
-  effective cleaning.
-...

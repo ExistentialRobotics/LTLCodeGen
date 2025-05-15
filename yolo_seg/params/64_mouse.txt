@@ -1,5 +1,0 @@
-The mouse is associated with the id number 64. Mice are commonly found in homes, offices,
-  and other indoor spaces. They are small rodents known for their ability to gnaw
-  on various materials and contaminate food. Mice are often considered pests and can
-  be a nuisance if not properly controlled.
-...

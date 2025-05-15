@@ -1,7 +1,0 @@
-The sports ball is associated with the id number 32. Sports balls are commonly found
-  on sports fields, courts, and playgrounds where various sports and recreational
-  activities take place. They come in different shapes, sizes, and materials depending
-  on the sport being played, such as soccer, basketball, football, tennis, and more.
-  Sports balls are essential equipment for playing sports and are designed to be durable
-  and suitable for specific game requirements.
-...

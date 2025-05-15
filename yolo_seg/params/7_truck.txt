@@ -1,6 +1,0 @@
-The truck is associated with the id number 7. Trucks can be commonly seen on roads,
-  highways, construction sites, and industrial areas. They are versatile vehicles
-  used for transporting goods, materials, equipment, and people. Trucks come in various
-  sizes and types, such as pickup trucks, semi-trucks, dump trucks, and tow trucks,
-  each serving different purposes in different industries.
-...

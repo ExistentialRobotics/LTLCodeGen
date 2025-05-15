@@ -1,6 +1,0 @@
-The keyboard is associated with the id number 66. Keyboards are commonly found in
-  offices, schools, and homes, and are used to input data into computers or other
-  electronic devices. Keyboards come in various sizes and layouts, with keys for letters,
-  numbers, symbols, and functions. They are essential tools for typing, gaming, and
-  navigating digital interfaces.
-...

@@ -1,5 +1,0 @@
-The knife is associated with the id number 43. Knives are commonly found in kitchens,
-  restaurants, and other food preparation areas. They are essential tools for cutting,
-  slicing, and chopping ingredients during cooking. Knives come in various shapes
-  and sizes, each serving a specific purpose in the culinary world.
-...

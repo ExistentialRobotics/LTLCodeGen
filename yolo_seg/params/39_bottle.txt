@@ -1,6 +1,0 @@
-The bottle is associated with the id number 39. Bottles can be found in various places
-  such as homes, restaurants, stores, and recycling centers. They are commonly used
-  for storing and transporting liquids such as water, beverages, and cleaning products.
-  Bottles come in different shapes, sizes, and materials, making them versatile containers
-  for a wide range of purposes.
-...

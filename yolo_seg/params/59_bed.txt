@@ -1,5 +1,0 @@
-The bed is associated with the id number 59. Beds are commonly found in bedrooms,
-  hotels, hospitals, and other living spaces where people sleep or rest. They provide
-  a comfortable surface for sleeping and relaxation, and come in various sizes and
-  styles to suit different preferences and needs.
-...

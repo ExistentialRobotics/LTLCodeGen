@@ -1,5 +1,0 @@
-The broccoli is associated with the id number 50. Broccoli is a vegetable commonly
-  found in grocery stores, farmers markets, and in home kitchens. It is known for
-  its green color and tree-like appearance, and is often used in various culinary
-  dishes for its nutritional benefits.
-...

@@ -1,5 +1,0 @@
-The toaster is associated with the id number 70. Toasters are commonly found in kitchens
-  and are used to toast bread or other food items. They are a staple appliance for
-  breakfast preparation and are known for their convenience and speed in toasting
-  bread to a desired level of crispiness.
-...

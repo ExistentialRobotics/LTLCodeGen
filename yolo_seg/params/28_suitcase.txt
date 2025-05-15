@@ -1,6 +1,0 @@
-The suitcase is associated with the id number 28. Suitcases are commonly found in
-  airports, train stations, hotels, and other travel-related locations. They are used
-  to store and transport clothing, personal items, and other belongings while traveling.
-  Suitcases come in various sizes, styles, and materials to suit different travel
-  needs.
-...

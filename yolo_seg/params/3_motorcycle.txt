@@ -1,6 +1,0 @@
-The motorcycle is associated with the id number 3. Motorcycles are commonly seen on
-  roads and highways, used as a mode of transportation for individuals. They are known
-  for their speed, agility, and ability to navigate through traffic easily. Motorcycles
-  are popular among thrill-seekers and commuters looking for a more efficient way
-  to travel.
-...

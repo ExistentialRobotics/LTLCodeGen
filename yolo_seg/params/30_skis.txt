@@ -1,6 +1,0 @@
-The skis are associated with the id number 30. Skis are commonly used in snowy or
-  mountainous regions for recreational activities such as skiing and snowboarding.
-  They are typically found at ski resorts, winter sports facilities, or in the homes
-  of outdoor enthusiasts. Skis come in various shapes and sizes, designed for different
-  types of skiing styles and terrains.
-...

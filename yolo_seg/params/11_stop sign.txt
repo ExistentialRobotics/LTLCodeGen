@@ -1,6 +1,0 @@
-The stop sign is associated with the id number 11. Stop signs are commonly found at
-  intersections or road junctions to control traffic flow. They are crucial for ensuring
-  road safety by signaling drivers to come to a complete stop before proceeding. Stop
-  signs are typically octagonal in shape and have a bright red color with white lettering,
-  making them easily recognizable to drivers.
-...

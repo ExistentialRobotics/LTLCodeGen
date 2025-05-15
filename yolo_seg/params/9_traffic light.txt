@@ -1,7 +1,0 @@
-The traffic light is associated with the id number 9. Traffic lights are commonly
-  found at intersections, pedestrian crossings, and other areas where traffic needs
-  to be controlled. They play a crucial role in regulating the flow of vehicles and
-  ensuring road safety for both drivers and pedestrians. Traffic lights typically
-  have three colored lights (red, yellow, and green) that signal when to stop, slow
-  down, or go.
-...

@@ -1,5 +1,0 @@
-The banana is associated with the id number 46. Bananas are commonly found in grocery
-  stores, fruit stands, and kitchens. They are a popular fruit known for their yellow
-  color, sweet taste, and high potassium content. Bananas are versatile and can be
-  eaten on their own, added to smoothies, or used in baking recipes.
-...

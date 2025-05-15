@@ -1,6 +1,0 @@
-The bird is associated with the id number 14. Birds can be found in various habitats
-  such as forests, parks, gardens, and even urban areas. They are known for their
-  ability to fly and their diverse colors and songs. Birdwatching is a popular hobby
-  for many people who enjoy observing and identifying different species of birds in
-  their natural environments.
-...

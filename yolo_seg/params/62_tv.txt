@@ -1,5 +1,0 @@
-The TV is associated with the id number 62. TVs are commonly found in living rooms,
-  bedrooms, and entertainment areas. They are used for watching television shows,
-  movies, playing video games, and displaying other forms of media. TVs come in various
-  sizes and styles, and are a popular form of entertainment in many households.
-...

@@ -1,6 +1,0 @@
-The spoon is associated with the id number 44. Spoons are commonly found in kitchens,
-  dining areas, and restaurants. They are essential utensils used for eating, stirring,
-  and serving food. Spoons come in various sizes and shapes, with some specifically
-  designed for different purposes such as soup spoons, dessert spoons, and serving
-  spoons.
-...

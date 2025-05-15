@@ -1,6 +1,0 @@
-The carrot is associated with the id number 51. Carrots are commonly found in grocery
-  stores, farmers markets, and home gardens. They are a versatile vegetable that can
-  be eaten raw, cooked, or juiced, and are known for their bright orange color and
-  sweet flavor. Carrots are often used in salads, soups, stews, and as a healthy snack
-  option.
-...

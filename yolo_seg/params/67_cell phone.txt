@@ -1,6 +1,0 @@
-The cell phone is associated with the id number 67. Cell phones are commonly found
-  in people's pockets, purses, or hands, and are used for communication, browsing
-  the internet, taking photos, and various other tasks. They have become an essential
-  part of modern life, allowing individuals to stay connected and access information
-  on the go.
-...

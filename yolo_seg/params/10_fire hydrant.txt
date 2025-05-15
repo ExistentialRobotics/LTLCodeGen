@@ -1,5 +1,0 @@
-The fire hydrant is associated with the id number 10. Fire hydrants are typically
-  found on sidewalks, near roads, or in public spaces, and are used for firefighting
-  purposes. They are easily recognizable by their bright colors and distinctive shapes,
-  ensuring quick access for firefighters in case of an emergency.
-...

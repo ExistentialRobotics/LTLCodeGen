@@ -1,6 +1,0 @@
-The wine glass is associated with the id number 40. Wine glasses are commonly found
-  in dining settings, such as restaurants, bars, and homes. They are used for serving
-  and enjoying various types of wine, and come in different shapes and sizes to enhance
-  the drinking experience. Wine glasses are often made of glass or crystal, and their
-  design can affect the aroma and taste of the wine being served.
-...

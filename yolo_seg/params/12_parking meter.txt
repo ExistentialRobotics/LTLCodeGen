@@ -1,5 +1,0 @@
-The parking meter is associated with the id number 12. Parking meters are commonly
-  found along streets and in parking lots, where they are used to collect fees for
-  parking. They help regulate parking spaces and ensure turnover for businesses and
-  residents in busy areas.
-...

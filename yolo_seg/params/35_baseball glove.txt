@@ -1,6 +1,0 @@
-The baseball glove is associated with the id number 35. Baseball gloves are commonly
-  used in the sport of baseball to catch and field balls. They are typically found
-  on baseball fields, in sports stores, and in the hands of players during games and
-  practices. Baseball gloves come in various sizes and styles to accommodate different
-  positions and player preferences.
-...

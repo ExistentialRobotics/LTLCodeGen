@@ -1,6 +1,0 @@
-The cat is associated with the id number 15. Cats are commonly found in households
-  as pets and are known for their playful and independent nature. They are often kept
-  indoors but can also be seen roaming in neighborhoods or lounging in sunny spots.
-  Cats are beloved for their companionship and ability to provide comfort to their
-  owners.
-...

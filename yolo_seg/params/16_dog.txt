@@ -1,4 +1,0 @@
-The dog is associated with the id number 16. Dogs are commonly found as pets in households,
-  in parks, and sometimes as service animals. They are known for their loyalty, companionship,
-  and playful nature, making them popular animals to have as part of the family.
-...
