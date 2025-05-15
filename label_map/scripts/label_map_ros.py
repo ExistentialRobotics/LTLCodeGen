@@ -1,48 +1,71 @@
-#!/usr/bin/env python
-
-import rospy
+import random
 import numpy as np
-import ast
-from nav_msgs.msg import OccupancyGrid
-from labelmap_radius import generate_label_map
-from std_msgs.msg import String
+import re
 
-class Labelmap:
-    def __init__(self):
-        # Read parameters
-        self.radius = rospy.get_param("~radius", 1) # radius is matches grid resolution
-        self.ap_topic = rospy.get_param("~ap_dict", "ap_dict") # dictionary matching ap to task
-        self.semantic_map_topic = rospy.get_param("~semantic_map", "semantic_map") # bird's eye view
-        
-        self.label_map_topic = rospy.get_param("~label_map", "label_map") # this is what we will publish
-        
-        # ROS communication
-        self.sub_ap_dict = rospy.Subscriber(self.ap_topic, String, self.ap_cb, queue_size= 1)
-        self.sub_semantic_map = rospy.Subscriber(self.semantic_map_topic, OccupancyGrid, self.semantic_cb, queue_size= 1) # this comes from ssmi
-        self.pub_label_map = rospy.Publisher(self.label_map_topic, OccupancyGrid, queue_size = 1)
+def grid_to_label_ap(grid, ap_dict, ap_id):
+    # Convert 2D slice to a label map with radius 0
+    label_map = np.zeros(grid.shape, dtype= np.int8)
+    label_map_viz = np.zeros(grid.shape, dtype= np.int8)
+    pattern = r'reach\(object_(\d+)\)'
+    num_ap = len(ap_dict)
+    for key in ap_dict.keys():
+        # Extract Object ID
+        match = re.search(pattern, key)
+        if match:
+            object_id = int(match.group(1))
+        else:
+            object_id = -1
+            
+        if object_id >= 0:
+            # Update values
+            position = int(ap_id[ap_dict[key]])
+            label_map[grid == object_id] = 1 << (num_ap - position - 1) 
+            label_map_viz[grid == object_id] = label_map[grid == object_id] * 50 # To visualize in rviz
 
-    def semantic_cb(self, map):
-        # Get semantic class data
-        height, width = map.info.height, map.info.width
-        semantic_map = np.array(map.data, dtype=np.int8).reshape((height, width)) # this will turn into array
-        try:
-            self.label_map = generate_label_map(semantic_map, self.ap_dict, self.radius)
-            label_msg = OccupancyGrid()
-            label_msg.header = map.header
-            label_msg.header.stamp = rospy.Time.now() # Set current time
-            label_msg.info = map.info
-            label_msg.data = self.label_map.flatten().tolist()
-            self.pub_label_map.publish(label_msg)
-        except Exception as e:
-            rospy.logerr(e)
-        
-    def ap_cb(self, msg):
+    return label_map, label_map_viz
 
-        self.ap_dict = ast.literal_eval(msg.data)
+def generate_label_map_radius(label_map, label_map_viz, radius=1):
+    neighbor_label_map = np.zeros_like(label_map, dtype=np.int8)
+    neighbor_label_map_viz = np.zeros_like(label_map, dtype=np.int8)
+    rows, cols = label_map.shape
 
+    # Direction vectors within the radius
+    directions = [(dr, dc) for dr in range(-radius, radius + 1) for dc in range(-radius, radius + 1) if not (dr == 0 and dc == 0)]
+    
+    for row in range(rows):
+        for col in range(cols):
+            current_label = label_map[row][col]
+            current_label_viz = label_map_viz[row][col]
+            # Sum the neighbor labels within the radius
+            for dr, dc in directions:
+                new_row, new_col = row + dr, col + dc
+                # Check if the neighbor is within bounds
+                if 0 <= new_row < rows and 0 <= new_col < cols:
+                    neighbor_label = label_map[new_row][new_col]
+                    neighbor_label_viz = label_map_viz[new_row][new_col]
+                    # OR operation with the neighbor to include its bits
+                    current_label |= neighbor_label
+                    current_label_viz |= neighbor_label_viz
+            neighbor_label_map[row][col] = current_label
+            neighbor_label_map_viz[row][col] = current_label_viz
+            
+    return neighbor_label_map, neighbor_label_map_viz
+
+
+def generate_label_map(semantic_map, ap_dict, ap_id, radius=1):
+    
+    label_map, label_map_viz = grid_to_label_ap(semantic_map, ap_dict, ap_id)
+    label_map_radius, label_map_radius_viz = generate_label_map_radius(label_map, label_map_viz, radius)
+    return label_map_radius, label_map_radius_viz
 
 if __name__ == "__main__":
-    # Initialize ROS node
-    rospy.init_node("label_map_node")
-    label_map = Labelmap()
-    rospy.spin()
+    # Test Label map
+    radius = 2
+    id_list = [72, 69,85, 45, 81, 62, 33, 12]
+    test_array = np.random.choice(id_list, size=(10,10), replace=True)
+    #semantic_slice = np.random.randint(0,73, size=(10,10), dtype=np.int8)
+    ap_dict = {'reach(object_69)': 'p1', 'reach(object_62)': 'p2', 'reach(object_72)': 'p3'}
+    print(f"\nLabel Map with Radius {radius}:")
+    label_map = generate_label_map(test_array, ap_dict, radius)
+    print(label_map)
+
