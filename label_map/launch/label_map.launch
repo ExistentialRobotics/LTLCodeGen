@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
 
-    <arg name="radius" default="2" />
+    <arg name="radius" default="2.0" />
     <arg name="ap_dict" default= "/ap_dict" />
     <arg name="ap_id" default= "/ap_id" />
     <arg name="semantic_map" default="/semantic_map" />
@@ -12,7 +12,8 @@
 
         <node pkg="label_map" type="ap_pub.py" name="ap_dict_publisher" output="screen" if = "$(arg test_package)">
             <rosparam file="$(find label_map)/config/message.yaml"/>
-            <param name="topic" value="$(arg ap_dict)"/>
+            <param name="dict_topic" value="$(arg ap_dict)"/>
+            <param name="id_topic" value="$(arg ap_id)"/>
             <param name="rate" value="1"/>
         </node>
 

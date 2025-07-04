@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import rospy
 import numpy as np
@@ -24,7 +24,7 @@ class OccupancyMapSaver:
         # Directory to save the numpy array
         self.save_dir = rospy.get_param("~save_dir", "/home/brabiei/SOLAR_WS/src/SOLAR/label_map/maps")
 
-        self.occ_file_name = rospy.get_param("~file_name", "occ_map.npy")
+        self.occ_file_name = rospy.get_param("~occ_file_name", "occ_map.npy")
         self.semantic_file_name = rospy.get_param(
             "~semantic_file_name", "semantic_map.npy"
         )

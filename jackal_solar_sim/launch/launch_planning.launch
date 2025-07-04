@@ -1,21 +1,24 @@
 <launch>
     <!-- Run simulation -->
+    <arg name="sim" default="true"/> 
     <arg name="world" default="office"/>
     <arg name="want_gui" default="false"/>
     <arg name="use_simulator" default="true"/>
 
     <!-- Launch the corresponding environment -->
-    <include file="$(find jackal_solar_sim)/launch/launch_jackal_$(arg world).launch" if="$(arg use_simulator)">
-        <arg name="want_gui" value="$(arg want_gui)"/>
-    </include>
-
+    <group if="$(arg sim)">
+        <include file="$(find jackal_solar_sim)/launch/launch_jackal_$(arg world).launch" if="$(arg use_simulator)">
+            <arg name="want_gui" value="$(arg want_gui)"/>
+        </include>
+    </group>
+    
     <!-- Get user task-->
     <node pkg="speech_to_ltl" type="ltl_translate_node.py" name="ltl_translate_node" output="screen">
     </node>
 
     <!-- call the launch file label_map.launch in the label_map package-->
     <include file="$(find label_map)/launch/label_map.launch">
-        <arg name="radius" value="1"/>
+        <arg name="radius" value="2"/>
         <arg name="test_package" value="false"/>
     </include>
 

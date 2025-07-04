@@ -12,6 +12,7 @@ def llm_init(gpt_api,model_name="gpt-4o",
     llm = ChatOpenAI(model_name=model_name,
                      temperature=temperature,
                      max_tokens=max_tokens,
+                     #max_completion_tokens = max_tokens,
                         frequency_penalty=frequency_penalty,
                         presence_penalty=presence_penalty,
                      openai_api_key=gpt_api)

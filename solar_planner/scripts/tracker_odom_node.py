@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import rospy
 import tf
@@ -18,15 +18,15 @@ def publish_odom():
     while not rospy.is_shutdown():
         try:
             # Get the transformation from world to husky_1/base_link
-            (trans, rot) = listener.lookupTransform('/world', '/husky_1/base_link', rospy.Time(0))
+            (trans, rot) = listener.lookupTransform('/odom', '/jackal1/base_link', rospy.Time(0))
 
             # Create an Odometry message
             odom_msg = Odometry()
 
             # Set the header
             odom_msg.header.stamp = rospy.Time.now()
-            odom_msg.header.frame_id = "world"
-            odom_msg.child_frame_id = "husky_1/base_link"
+            odom_msg.header.frame_id = "odom"
+            odom_msg.child_frame_id = "jackal1/base_link"
 
             # Set the pose (position and orientation)
             odom_msg.pose.pose.position.x = trans[0]

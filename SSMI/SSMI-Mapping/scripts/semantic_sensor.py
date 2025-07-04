@@ -73,8 +73,8 @@ class SemanticPclGenerator:
         o_R_r = np.matrix([[0, -1, 0],
                    [0, 0, -1],
                    [1, 0, 0]])
-        self.xyd_vect[:,0:2] = self.xy_index * depth_img.reshape(-1,1) / 1 # Division by 1000 for unit conversion
-        self.xyd_vect[:,2:3] = depth_img.reshape(-1,1) / 1 # Division by 1000 for unit conversion
+        self.xyd_vect[:,0:2] = self.xy_index * depth_img.reshape(-1,1) / 1000 # Division by 1000 for unit conversion
+        self.xyd_vect[:,2:3] = depth_img.reshape(-1,1) / 1000 # Division by 1000 for unit conversion
         self.XYZ_vect = self.xyd_vect.dot(self.intrinsic.I.T)
         self.XYZ_vect = self.XYZ_vect.dot(o_R_r.I.T)
         

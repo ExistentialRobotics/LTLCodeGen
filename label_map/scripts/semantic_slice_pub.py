@@ -89,13 +89,13 @@ PROJ_DIR = os.path.realpath(PROJ_DIR)
 if __name__ == '__main__':
     try:
         # Proviude the paths to occupancy map files
-        occupancy_meta_file_path = f"{PROJ_DIR}/label_map/maps/occ_map_metadata_real_env1.npy"
-        occupancy_data_file_path = f"{PROJ_DIR}/label_map/maps/occ_map_real_env1.npy"
+        occupancy_meta_file_path = f"{PROJ_DIR}/label_map/maps/occ_map_metadata.npy"
+        occupancy_data_file_path = f"{PROJ_DIR}/label_map/maps/occ_map.npy"
 
         # Provide the paths to semantic map files
 
-        semantic_meta_file_path = f"{PROJ_DIR}/label_map/maps/semantic_map_metadata_real_env1.npy"
-        semantic_data_file_path = f"{PROJ_DIR}/label_map/maps/semantic_map_real_env1.npy"
+        semantic_meta_file_path = f"{PROJ_DIR}/label_map/maps/semantic_map_metadata.npy"
+        semantic_data_file_path = f"{PROJ_DIR}/label_map/maps/semantic_map.npy"
 
         publish_occupancy_map(occupancy_meta_file_path,
                               occupancy_data_file_path,

@@ -1,0 +1,18 @@
+# Camera intrinsic matrix parameters
+camera:
+  fx: 382.12591552734375
+  fy: 381.6585388183594
+  cx: 327.84820556640625
+  cy: 241.3488311767578
+
+  width: 640
+  height: 480
+
+semantic_pcl:
+  color_image_topic: "rgb_image"
+  semantic_image_topic: "/segmented_image"
+  depth_image_topic: "depth_image"
+  point_type: 0
+  frame_id: "jackal1/camera_link"
+  depth_noise_std: 0.0
+  true_class_prob: 1.0

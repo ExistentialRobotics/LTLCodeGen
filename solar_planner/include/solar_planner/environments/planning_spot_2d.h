@@ -77,7 +77,6 @@ namespace erl
         int src = edge.src;
         int dst = edge.dst;
 
-
         // for every unique label
         for (uint16_t label_int : unique_labels)
         {
@@ -126,7 +125,21 @@ namespace erl
         }
       }
 
+      for (const auto &entry : dictionary_of_labels)
+      {
+        const auto &key = entry.first;    // The key is a pair<int, int>
+        const auto &value = entry.second; // The value is a set<int>
 
+        std::cout << "Key: (" << key.first << ", " << key.second << ") -> Values: { ";
+
+        // Print the set of integers
+        for (const int &val : value)
+        {
+          std::cout << val << " ";
+        }
+
+        std::cout << "}" << std::endl;
+      }
       //  initialize label_distance_g_
       label_distance_g_ = std::move(label_cost2go());
     }
@@ -163,8 +176,15 @@ namespace erl
             continue; // Skip out-of-bounds
 
           // filter by occupancy
-          if (occ_map_(xNeighbor, yNeighbor) > 0)
-            continue; // Skip occupied cells
+          // if (occ_map_(xNeighbor, yNeighbor) > 0)
+          //   continue; // Skip occupied cells
+
+          // Discard motion primitives that collide
+          size_t lindix = MAP_ptr->subv2ind({xNeighbor, yNeighbor});
+          if (MAP_ptr->map().at(lindix) > 0)
+          {
+            continue;
+          }
 
           // neighbor label
           uint16_t label_int = lmap_(xNeighbor, yNeighbor);
@@ -439,7 +459,6 @@ namespace erl
             return s;
           }
         }
-
       }
       return -1; // TODO: THIS MAY NOT BE VALID
     }

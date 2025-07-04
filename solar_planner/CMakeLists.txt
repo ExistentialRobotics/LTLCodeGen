@@ -47,10 +47,16 @@ catkin_package(
     tf2_geometry_msgs
 )
 
-include_directories(include ${catkin_INCLUDE_DIRS})
+# json
+add_compile_definitions(JSON_DIAGNOSTICS=1)
+find_package(nlohmann_json REQUIRED)
+
+
+include_directories(include ${catkin_INCLUDE_DIRS} ${nlohmann_json_INCLUDE_DIRS})
 
 # Define executables
-add_executable(ltl_planner_node src/ltl_planner_node.cpp)
+add_executable(ltl_planner_node 
+                src/ltl_planner_node.cpp)
 
 
 target_link_libraries(ltl_planner_node
@@ -59,6 +65,7 @@ target_link_libraries(ltl_planner_node
   spot
   bddx
   yaml-cpp
+  nlohmann_json::nlohmann_json
 )
 
 

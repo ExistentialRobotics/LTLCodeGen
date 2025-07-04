@@ -2,12 +2,15 @@
 
     <arg name="world" default="office"/>
     <arg name="want_gui" default="false"/>
+    <arg name="sim" default="true"/> 
 
-    <!-- Launch the corresponding environment -->
-    <include file="$(find jackal_solar_sim)/launch/launch_jackal_$(arg world).launch">
-        <arg name="want_gui" value="$(arg want_gui)"/>
-    </include>
-
+    <!-- Launch the corresponding environment if sim otherwise don't launch-->
+    <group if="$(arg sim)">
+        <include file="$(find jackal_solar_sim)/launch/launch_jackal_$(arg world).launch">
+            <arg name="want_gui" value="$(arg want_gui)"/>
+        </include>
+    </group>
+    
     <!-- Launch SSMI Mapping -->
     <include file="$(find semantic_octomap)/launch/semantic_octomap.launch"/>
 

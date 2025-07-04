@@ -5,6 +5,9 @@
 #include <std_msgs/String.h>
 #include <nav_msgs/Odometry.h>
 #include <vector>
+#include <map>
+#include <sstream>
+#include <string>
 #include <yaml-cpp/yaml.h>
 #include <tf2/LinearMath/Quaternion.h>
 
@@ -19,12 +22,74 @@
 
 #include <cmath>
 
+void custom_print(std::ostream &out, const spot::twa_graph_ptr &aut)
+{
+    // We need the dictionary to print the BDDs that label the edges
+    const spot::bdd_dict_ptr &dict = aut->get_dict();
+
+    // Some meta-data...
+    out << "Acceptance: " << aut->get_acceptance() << '\n';
+    out << "Number of sets: " << aut->num_sets() << '\n';
+    out << "Number of states: " << aut->num_states() << '\n';
+    out << "Number of edges: " << aut->num_edges() << '\n';
+    out << "Initial state: " << aut->get_init_state_number() << '\n';
+    out << "Atomic propositions:";
+    for (spot::formula ap : aut->ap())
+        out << ' ' << ap << " (=" << dict->varnum(ap) << ')';
+    out << '\n';
+
+    // Arbitrary data can be attached to automata, by giving them
+    // a type and a name.  The HOA parser and printer both use the
+    // "automaton-name" to name the automaton.
+    if (auto name = aut->get_named_prop<std::string>("automaton-name"))
+        out << "Name: " << *name << '\n';
+
+    // For the following prop_*() methods, the return value is an
+    // instance of the spot::trival class that can represent
+    // yes/maybe/no.  These properties correspond to bits stored in the
+    // automaton, so they can be queried in constant time.  They are
+    // only set whenever they can be determined at a cheap cost: for
+    // instance an algorithm that always produces deterministic automata
+    // would set the deterministic property on its output.  In this
+    // example, the properties that are set come from the "properties:"
+    // line of the input file.
+    out << "Complete: " << aut->prop_complete() << '\n';
+    out << "Deterministic: " << (aut->prop_universal() && aut->is_existential()) << '\n';
+    out << "Unambiguous: " << aut->prop_unambiguous() << '\n';
+    out << "State-Based Acc: " << aut->prop_state_acc() << '\n';
+    out << "Terminal: " << aut->prop_terminal() << '\n';
+    out << "Weak: " << aut->prop_weak() << '\n';
+    out << "Inherently Weak: " << aut->prop_inherently_weak() << '\n';
+    out << "Stutter Invariant: " << aut->prop_stutter_invariant() << '\n';
+
+    // States are numbered from 0 to n-1
+    unsigned n = aut->num_states();
+    for (unsigned s = 0; s < n; ++s)
+    {
+        out << "State " << s << ":\n";
+
+        // The out(s) method returns a fake container that can be
+        // iterated over as if the contents was the edges going
+        // out of s.  Each of these edges is a quadruplet
+        // (src,dst,cond,acc).  Note that because this returns
+        // a reference, the edge can also be modified.
+        for (auto &t : aut->out(s))
+        {
+            out << "  edge(" << t.src << " -> " << t.dst << ")\n    label = ";
+            spot::bdd_print_formula(out, dict, t.cond);
+            out << "\n    acc sets = " << t.acc << '\n';
+        }
+    }
+}
+
 std::vector<geometry_msgs::Pose> computePath(const spot::twa_graph_ptr &automaton,
                                              const nav_msgs::Odometry &our_pose,
                                              nav_msgs::OccupancyGrid occ_map,
                                              nav_msgs::OccupancyGrid label_map)
 {
     // TODO: Get map data
+    custom_print(std::cout, automaton);
+    // Get map data
     const std::vector<double> &start = {our_pose.pose.pose.position.x, our_pose.pose.pose.position.y};
     double eps = 1.0;
     int width = occ_map.info.width;
@@ -82,9 +147,38 @@ std::vector<geometry_msgs::Pose> computePath(const spot::twa_graph_ptr &automato
 
     //  // Initialize MAP
     std::cout << "Initializing Label Map..." << std::endl;
-    std::unique_ptr<erl::GridMap<uint16_t>> MAP_ptr(new erl::GridMap<uint16_t>(mapmin, mapmax, mapres));
+    std::unique_ptr<erl::GridMap<uint16_t>> MAP_ptr(new erl::GridMap<uint16_t>(mapmin, mapmax, mapres, true));
 
-    //  Read label map 
+    // Convert OccupancyGrid data to GridMap format
+    std::vector<uint16_t> map_data(occ_map.info.width * occ_map.info.height);
+    for (size_t i = 0; i < occ_map.data.size(); ++i)
+    {
+        // std::cout<< "data before: " << occ_map.data[i] << std::endl;
+        map_data[i] = (occ_map.data[i] < 0) ? 0 : static_cast<uint16_t>(occ_map.data[i]);
+        // std::cout<< "data after: " << map_data[i] << std::endl;
+    }
+
+    // Step 3: Update the GridMap object with the new data
+    MAP_ptr->setMap(map_data);
+
+    // Inflate the map before using it for planning
+    double inflation_radius = occ_map.info.resolution * 1.5; // Set the desired inflation radius (in meters)
+    std::cout << "Inflation radius: " << inflation_radius << std::endl;
+    std::vector<uint16_t> inflated_map_data = erl::inflateMap2D(*MAP_ptr, inflation_radius);
+
+    // Update the GridMap object with the inflated data
+    bool map_succ = MAP_ptr->setMap(inflated_map_data);
+
+    if (map_succ)
+    {
+        ROS_INFO("Map successfully initialized!");
+    }
+    else
+    {
+        ROS_ERROR("Failed to initialize map!");
+    }
+
+    //  Read label map
     std::cout << "Reading Label Map Content:\n";
     Eigen::Matrix<uint16_t, Eigen::Dynamic, Eigen::Dynamic> lmap(MAP_ptr->size()[0], MAP_ptr->size()[1]);
 
@@ -113,6 +207,7 @@ std::vector<geometry_msgs::Pose> computePath(const spot::twa_graph_ptr &automato
             // Map's data is stored in row-major order
             int index = y * width + x;
             int value = occ_map.data[index];
+            // std::cout << "Data: " << occ_map.data[index];
 
             // Convert the map value to uint16_t (e.g., -1 for unknown becomes 0)
             omap(y, x) = (value < 0) ? 0 : static_cast<uint16_t>(value); // Doubtful
@@ -126,7 +221,7 @@ std::vector<geometry_msgs::Pose> computePath(const spot::twa_graph_ptr &automato
     std::array<int, 3> start_coord;
     start_coord[0] = erl::meters2cells(start[0], mapmin[0], mapres[0]);
     start_coord[1] = erl::meters2cells(start[1], mapmin[1], mapres[1]);
-    start_coord[2] = automaton->get_init_state_number(); 
+    start_coord[2] = automaton->get_init_state_number();
     erl::ARAStar<std::array<int, 3>> AA;
 
     // Plan path
@@ -173,11 +268,15 @@ public:
         // Path publisher
         path_pub_ = nh_.advertise<nav_msgs::Path>("computed_path", 1);
 
+        // AP to Id dict publisher
+        ap_id_pub_ = nh_.advertise<std_msgs::String>("ap_id", 1);
+
         // Get the world frame id
+        // world_frame_id = "odom";
         world_frame_id = "world";
 
         // Get the robot frame id
-        robot_frame_id = "husky_1/base_link";
+        robot_frame_id = "jackal1/base_link";
     }
 
 private:
@@ -186,6 +285,7 @@ private:
     ros::Subscriber label_map_sub_;
     ros::Subscriber automaton_sub_;
     ros::Publisher path_pub_;
+    ros::Publisher ap_id_pub_;
 
     // These are modified for appropriate dimensions
     nav_msgs::OccupancyGrid current_occ_map_;
@@ -358,11 +458,36 @@ private:
     {
         if (automaton_received_)
         {
+            ROS_INFO("Received automaton again!!!!!");
+            const spot::bdd_dict_ptr &dict = automaton_->get_dict();
+            std::ostringstream oss;
+
+            // Dictionary start
+            oss << "{ ";
+
+            for (spot::formula ap : automaton_->ap())
+            {
+                // Get ap and corresponding id from bdd_dict
+                auto ap_str = ap.ap_name();
+                auto id = dict->varnum(ap);
+                // Write to dict
+                oss << "\"" << ap_str << "\"" << " : " << "\"" << std::to_string(id) << "\"";
+                oss << ", ";
+            }
+
+            // Close dictionary
+            oss << "} ";
+
+            std_msgs::String msg;
+            msg.data = oss.str();
+
+            ap_id_pub_.publish(msg);
+
             return;
         }
 
         spot::automaton_stream_parser *str_parser = new spot::automaton_stream_parser(msg->data.c_str(), "ROS_Str");
-        spot::parsed_aut_ptr pa = str_parser->parse(spot::make_bdd_dict()); 
+        spot::parsed_aut_ptr pa = str_parser->parse(spot::make_bdd_dict());
 
         if (pa->format_errors(std::cerr))
             return;
@@ -377,6 +502,7 @@ private:
 
         automaton_ = pa->aut;
         automaton_received_ = true;
+        ROS_INFO("Received automaton!!!!!");
 
         ROS_INFO("Aut Type: [%d]", (int)pa->type); // 0 is HOA format
 
@@ -388,14 +514,19 @@ private:
 
     void attemptPathPlanning()
     {
-        current_pose_ = getOdomFromTF(robot_frame_id);
+        // current_pose_ = getOdomFromTF(robot_frame_id);
+        pose_received_ = true;
 
         if (automaton_received_ && occ_map_received_ && label_map_received_ && pose_received_)
         {
             ROS_INFO("Attempting to compute path...");
             ////////////////////////////////////////////////
             // Get the current robot pose from TF
-            current_pose_ = getOdomFromTF(robot_frame_id);
+            // current_pose_ = getOdomFromTF(robot_frame_id);
+
+            current_pose_.pose.pose.position.x = 32.0;
+            current_pose_.pose.pose.position.y = 12.0;
+
             double temp = current_pose_.pose.pose.position.x;
             current_pose_.pose.pose.position.x = current_pose_.pose.pose.position.y;
             current_pose_.pose.pose.position.y = temp;
@@ -427,12 +558,14 @@ private:
         nav_msgs::Path path_msg;
         path_msg.header.stamp = ros::Time::now();
         // path_msg.header.frame_id = frame_id;
+        // path_msg.header.frame_id = "odom";
         path_msg.header.frame_id = "world";
 
         for (const auto &pose : poses)
         {
             geometry_msgs::PoseStamped pose_stamped;
             pose_stamped.header.stamp = ros::Time::now();
+            // pose_stamped.header.frame_id = "odom";
             pose_stamped.header.frame_id = "world";
             pose_stamped.pose = pose;
             double tmp = pose_stamped.pose.position.x;

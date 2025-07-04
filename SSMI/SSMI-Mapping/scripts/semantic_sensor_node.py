@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from __future__ import division
 from __future__ import print_function
 
@@ -44,7 +44,7 @@ class SemanticCloud:
         cx = rospy.get_param('/camera/cx')
         cy = rospy.get_param('/camera/cy')
         intrinsic = np.matrix([[fx, 0, cx], [0, fy, cy], [0, 0, 1]], dtype = np.float32)
-        
+
         # Noise configuration
         self.noisy_obs = False
         self.depth_noise_std = rospy.get_param('/semantic_pcl/depth_noise_std')
@@ -57,16 +57,16 @@ class SemanticCloud:
                 color = rospy.get_param('/class_labels/color_' + str(i + 1))
                 self.class_colors.append(255 * np.array([color['b'], color['g'], color['r']]))
             self.class_colors = np.array(self.class_colors).astype(np.uint8)
-        
+
         self.pcl_pub = rospy.Publisher("/semantic_pcl/semantic_pcl", PointCloud2, queue_size = 1)
 
         # increase buffer size to avoid delay (despite queue_size = 1)
         self.color_sub = message_filters.Subscriber(rospy.get_param('/semantic_pcl/color_image_topic'), Image,
-                                                    queue_size = 1, buff_size = 30*self.img_width*self.img_height)
+                                                    queue_size = 1, buff_size = 9*self.img_width*self.img_height)
         self.semantic_sub = message_filters.Subscriber(rospy.get_param('/semantic_pcl/semantic_image_topic'), Image,
-                                                       queue_size = 1, buff_size = 30*self.img_width*self.img_height)
+                                                       queue_size = 1, buff_size = 9*self.img_width*self.img_height)
         self.depth_sub = message_filters.Subscriber(rospy.get_param('/semantic_pcl/depth_image_topic'), Image,
-                                                    queue_size = 1, buff_size = 30*self.img_width*self.img_height)
+                                                    queue_size = 1, buff_size = 9*self.img_width*self.img_height)
 
         # Take in color image, semantic image, and depth image with a limited time gap between message time stamps
         self.ts = message_filters.ApproximateTimeSynchronizer([self.color_sub, self.semantic_sub, self.depth_sub],
@@ -90,37 +90,29 @@ class SemanticCloud:
             print(e)
 
         # Resize depth
-        if depth_img.shape[0] is not self.img_height or depth_img.shape[1] is not self.img_width:
+        if depth_img.shape[0] != self.img_height or depth_img.shape[1] != self.img_width:
             depth_img = resize(depth_img, (self.img_height, self.img_width), order = 0, mode = 'reflect',
                                anti_aliasing=False, preserve_range = True) # order = 0, nearest neighbour
             depth_img = depth_img.astype(np.float32)
 
         # Resize semantic
-        if semantic_img.shape[0] is not self.img_height or semantic_img.shape[1] is not self.img_width:
+        if semantic_img.shape[0] != self.img_height or semantic_img.shape[1] != self.img_width:
             semantic_img = resize(semantic_img, (self.img_height, self.img_width), order = 0, mode = 'reflect',
                                   anti_aliasing=False, preserve_range = True) # order = 0, nearest neighbour
             semantic_img = semantic_img.astype(np.uint8)
-        
+
         # Add noise
         if self.noisy_obs is True:
             depth_img, semantic_img = self.add_noise(depth_img, semantic_img)
-        
-        if self.point_type == PointType.SEMANTIC: 
-            class_ids = np.unique(semantic_img[:,:,0].flatten())
-            segmentation_img = np.zeros_like(semantic_img)
-            for id in class_ids:
-                try:
-                    color = np.array(rospy.get_param("~" + str(id))[:3])
-                    mask = semantic_img[:,:,0] == id
-                    segmentation_img[mask] = color
-                except:
-                    continue
-            cloud_ros = self.cloud_generator.generate_cloud_semantic(color_img, segmentation_img, depth_img,
+
+        if self.point_type == PointType.SEMANTIC:
+            cloud_ros = self.cloud_generator.generate_cloud_semantic(color_img, semantic_img, depth_img,
                                                                      color_img_ros.header.stamp)
         else:
             print('Point type not supported!')
 
         # Publish point cloud
+        rospy.loginfo_throttle(10, "Published Cloud!!!")
         self.pcl_pub.publish(cloud_ros)
 
     def add_noise(self, depth_img, semantic_img):
@@ -130,9 +122,9 @@ class SemanticCloud:
         random_classes = np.random.choice(self.class_colors.shape[0],size=np.count_nonzero(error_mask))
         error_mask = np.repeat(error_mask[:,:,None],repeats=3,axis=2)
         np.place(semantic_img, error_mask, self.class_colors[random_classes, :])
-        
+
         return noisy_depth_img, semantic_img
-        
+
 
 def main(args):
     rospy.init_node('semantic_cloud', anonymous=True)

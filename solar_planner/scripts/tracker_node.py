@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from __future__ import division
 from __future__ import print_function
 
@@ -23,7 +23,7 @@ class PathNavigation:
         self.world_frame_id = rospy.get_param("/octomap/world_frame_id")
         self.dist =           rospy.get_param("/planning/goal_check_radius")
         self.tau =            rospy.get_param("/planning/publish_rate", 0.5)
-        
+
         # Get subscribers
         self.path_sub = message_filters.Subscriber("/computed_path", Path, queue_size=1)
         self.path_sub.registerCallback(self.path_callback)
@@ -32,14 +32,14 @@ class PathNavigation:
 
         self.collision = False
         self.is_tracking = False
-            
+
         self.position_cmd_pub = rospy.Publisher("/position_cmd", PoseStamped, queue_size=1)
 
-        self.world_frame_id = "world"
-        self.robot_frame_id = "husky_1/base_link"
-        
+        self.world_frame_id = "odom"
+        self.robot_frame_id = "jackal1/base_link"
+
         self.received_path = False
-        
+
         self.tf_listener = tf.TransformListener()
 
     def get_pose_from_tf(self, from_frame_id):
@@ -48,20 +48,20 @@ class PathNavigation:
         )
         euler = tf.transformations.euler_from_quaternion(rotation)
         return np.array([translation[0], translation[1], euler[2]])
-    
-        
+
+
     def path_callback(self, path_msg):
-        
+
         if self.received_path:
             return
-            
+
         rospy.loginfo("Received a path from exploration algorithm!")
-        
+
         # check if path poses are empty
         if len(path_msg.poses) == 0:
             rospy.loginfo("Path is empty!")
             return
-        
+
         if self.is_tracking:
             self.collision = True
 
@@ -69,7 +69,7 @@ class PathNavigation:
 
         for path_waypoint in path_msg.poses[1:]:
 
-            
+
             angle = np.arctan2(
                 path_waypoint.pose.position.y - traj[-1].position.y,
                 path_waypoint.pose.position.x - traj[-1].position.x,
@@ -79,8 +79,8 @@ class PathNavigation:
             path_waypoint.pose.orientation.y = quaternion[1]
             path_waypoint.pose.orientation.z = quaternion[2]
             path_waypoint.pose.orientation.w = quaternion[3]
-            ## 
-        
+            ##
+
             interpolated_pose = self.interpolate(traj[-1], path_waypoint.pose)
             while not self.close_enough(interpolated_pose, path_waypoint.pose):
                 traj.append(interpolated_pose)
@@ -101,10 +101,10 @@ class PathNavigation:
             while True:
                 if self.collision:
                     break
-                
+
 
                 robot_pose = self.get_pose_from_tf(self.robot_frame_id)
-                    
+
                 dist = np.sqrt(
                     (robot_pose[0] - pose.position.x) ** 2
                     + (robot_pose[1] - pose.position.y) ** 2
@@ -119,11 +119,11 @@ class PathNavigation:
 
                 self.position_cmd_pub.publish(position_cmd_msg)
                 rospy.sleep(self.tau)
-         
+
         # Keep publishing the last pose until the robot reaches the goal
-        while True:   
+        while True:
             self.position_cmd_pub.publish(position_cmd_msg)
-            
+
         self.is_tracking = False
 
     def interpolate(self, pose_1, pose_2):

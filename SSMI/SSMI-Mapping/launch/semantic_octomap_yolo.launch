@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-15"?>
+<launch>
+
+  <arg name="save_directory" default="/home/administrator/SOLAR_WS/src/SOLAR/label_map/maps" />
+  <arg name="occ_file" default="occ_map_real_env1.npy" />
+  <arg name="semantic_file" default="semantic_map_real_env1.npy" />
+  <arg name="meta_occ_file" default="occ_map_metadata_real_env1.npy" />
+  <arg name="meta_semantic_file" default="semantic_map_metadata_real_env1.npy" />
+
+
+  <!-- <include file="$(find yolo_seg)/launch/yolo_seg.launch"/> -->
+
+  <rosparam file="$(find semantic_octomap)/params/semantic_cloud_yolo.yaml" command="load"/>
+  <rosparam file="$(find semantic_octomap)/params/reverse_color_id_yolo.yaml" command="load"/>
+  <rosparam file="$(find semantic_octomap)/params/octomap_generator.yaml" command="load"/>
+
+
+  <node pkg="semantic_octomap" type="semantic_sensor_node.py" name="semantic_cloud" output="screen">
+      <rosparam file="$(find semantic_octomap)/params/yolo_color_id.yaml" command="load"/>
+  </node>
+  <node pkg="semantic_octomap" type="semantic_octomap" name="semantic_octomap" output="screen"/>
+
+    <node pkg="semantic_octomap" type="save_map.py" name="save_map" output="screen">
+      <param name="save_dir" value="$(arg save_directory)" />
+      <param name="occ_file_name" value="$(arg occ_file)" />
+      <param name="semantic_file_name" value="$(arg semantic_file)" />
+      <param name="occ_metadata_file_name" value="$(arg meta_occ_file)" />
+      <param name="semantic_metadata_file_name" value="$(arg meta_semantic_file)" />
+
+  </node>
+
+</launch>

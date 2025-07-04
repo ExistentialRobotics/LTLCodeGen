@@ -551,6 +551,7 @@ inline void erl::GridMap<T>::initMapData1(unsigned numdim,
   {
     origin_.push_back((mapmin[k] + mapmax[k]) / 2);
     size_.push_back((erl::odd_ceil((mapmax[k] - mapmin[k]) / mapres[k])));
+    std::cout << "Odd Ceil: " << erl::odd_ceil((mapmax[k] - mapmin[k]) / mapres[k]) << std::endl;
     dev = size_[k] * mapres[k] / 2;
     min_.push_back(origin_[k] - dev);
     max_.push_back(origin_[k] + dev);

@@ -11,7 +11,7 @@
 OctomapGeneratorNode::OctomapGeneratorNode(ros::NodeHandle &nh) : nh_(nh)
 {
     // Initiate octree
-    ROS_INFO("Semantic octomap generated!");
+    ROS_INFO("Semantic octomap initialized!");
     octomap_generator_ = new OctomapGenerator<PCLSemantics, SemanticOctree>();
     toggle_color_service_ = nh_.advertiseService("toggle_use_semantic_color", &OctomapGeneratorNode::toggleUseSemanticColor, this);
     RLE_service_ = nh_.advertiseService("querry_RLE", &OctomapGeneratorNode::querry_RLE, this);
@@ -202,11 +202,17 @@ void OctomapGeneratorNode::publish2DOccupancyMap(const SemanticOctree *octomap,
                     if (occupied)
                     {
                         // Height logic for occupancy map
-                        if (node_z < max_robot_z)
+                        if (node_z < max_robot_z && node_z >= resolution_)
                             occupancy_map->data[idx] = 100;
 
                         // Bird's eye view logic for semantic map
                         std::string color_key = "R" + std::to_string(it->getSemantics().getSemanticColor().r) + "G" + std::to_string(it->getSemantics().getSemanticColor().g) + "B" + std::to_string(it->getSemantics().getSemanticColor().b);
+                        auto r = it->getSemantics().getSemanticColor().r;
+                        auto g = it->getSemantics().getSemanticColor().g;
+                        auto b = it->getSemantics().getSemanticColor().b;
+
+                        class_id = -1;
+
                         nh_.getParam(color_key, class_id);
                         if (coordMap.find(xy_coordinates) == coordMap.end())
                         {
@@ -215,7 +221,7 @@ void OctomapGeneratorNode::publish2DOccupancyMap(const SemanticOctree *octomap,
                                 coordMap[xy_coordinates] = node_z;
 
                             // check if height is smaller than max_robot_z
-                            if (node_z < max_robot_z)
+                            if (node_z < max_robot_z && class_id != -1)
                                 semantic_map->data[idx] = class_id;
                             // semantic_map->data[idx] = class_id;
                         }
@@ -227,7 +233,8 @@ void OctomapGeneratorNode::publish2DOccupancyMap(const SemanticOctree *octomap,
 
                             // check if height is smaller than max_robot_z
                             // if (node_z < max_robot_z)
-                            semantic_map->data[idx] = class_id;
+                            if (class_id != -1)
+                                semantic_map->data[idx] = class_id;
                         }
                     }
 

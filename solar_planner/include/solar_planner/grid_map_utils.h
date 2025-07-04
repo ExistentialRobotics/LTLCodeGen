@@ -6,6 +6,7 @@
 #include <limits>
 #include <Eigen/Core>
 #include <iostream> // for debugging
+#include <iomanip>
 
 // for saving the map
 #include <fstream>               // std::ofstream
@@ -15,6 +16,11 @@
 
 #include "solar_planner/erl_utils.h"
 
+
+double truncate(double value, int decimalPlaces) {
+    double factor = std::pow(10, decimalPlaces);
+    return std::trunc(value * factor) / factor;
+}
 
 namespace erl {
 
@@ -35,7 +41,13 @@ inline double meters2cells_cont(double datam, double dim_min, double res) { retu
 inline int odd_ceil(double x) {
   if (std::abs(std::floor(x) - x) <= std::numeric_limits<double>::epsilon())
     x = std::floor(x);
+
+  x = truncate(x, 3);
+  
   int ocx = static_cast<int>(std::ceil(x));
+  std::cout << std::fixed << std::setprecision(10) << "Original value: " << x << "\n";
+  std::cout << "ceil: " << std::ceil(x) << std::endl;
+  std::cout << "ocx: " << ocx << std::endl;
   return (ocx % 2 == 0) ? (ocx + 1) : (ocx);
 }
 
