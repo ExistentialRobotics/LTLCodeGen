@@ -15,7 +15,7 @@ octomap:
     min_ground_z: 0.8
     max_ground_z: 2
     max_robot_z: 2
-    save_path: "/home/administrator/SOLAR_WS/src/SOLAR/label_map/maps/octomap_real.ot"
+    save_path: "results/label_map/maps/octomap_real.ot"
 
 # pcl pub speed around 8 
 # segmentation around 8.5-9.0
