@@ -1,2 +1,5 @@
 .idea
 __pycache__
+ros_ign_gazebo
+ros_ign_bridge
+.catkin_tools

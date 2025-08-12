@@ -18,37 +18,65 @@ This paper focuses on planning robot navigation tasks from natural language spec
     - If not already installed, follow this link to install ROS Noetic [ROS Noetic installation](https://wiki.ros.org/noetic/Installation/Ubuntu)
 
 2. Gazebo Fortress
-    - Follow this link to install Gazebo Fortress via apt PPA: [Gazebo Fortress installation](https://gazebosim.org/docs/fortress/install_ubuntu)
+    - Install Gazebo Fortress via apt PPA: [Gazebo Fortress installation](https://gazebosim.org/docs/fortress/install_ubuntu)
+    ```shell
+    sudo curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | \
+    sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null && \
+    sudo apt-get update && \
+    sudo apt-get install ignition-fortress
+    ```
 
-3. Teleop Twist and Skimage
-    - You may need to install Teleop Twist Keyboard via apt (`sudo apt-get install ros-noetic-teleop-twist-keyboard`) and [skimage via pip](https://scikit-image.org/docs/stable/user_guide/install.html#installation-via-pip-and-conda)
+3. Other dependencies
+    ```shell
+    sudo apt install \
+        python3-rosdep \
+        python3-rosinstall \
+        python3-rosinstall-generator \
+        python3-wstool \
+        python3-catkin-tools \
+        python3-pip \
+        python3-numpy \
+        python3-toml \
+        python3-scipy \
+        python3-tqdm \
+        ros-noetic-teleop-twist-keyboard \
+        ros-noetic-octomap \
+        ros-noetic-octomap-msgs \
+        ros-noetic-octomap-ros \
+        ros-noetic-octomap-rviz-plugins \
+        ros-noetic-octovis \
+        ros-noetic-vision-msgs \
+        nlohmann-json3-dev
+    pip3 install ultralytics scikit-image
+    ```
 
-4.  Octomap and Additional Packages 
-    - `sudo apt-get install ros-noetic-octomap`
-    - `sudo apt-get install ros-noetic-octomap-msgs` 
-    - `sudo apt-get install ros-noetic-octomap-ros`
-    - `sudo apt-get install ros-noetic-octovis`
-    - `sudo apt-get install ros-noetic-vision-msgs`
-    - `pip3 install ultralytics`
+## Getting Started
 
-5. Right Simulation Version
-    - (In the src area of your catkin ws) Follow the "from source" instructions from noetic branch of the following repository [ros-bridge](https://github.com/gazebosim/ros_gz/tree/noetic). It must be from source in order for the Ignition version to be Fortress, rather than Citadel.
-The important shell commands to execute are:
-        ```
-        # in the src directory
-        git clone [repo] -b noetic
-        
-        # in the workspace directory
-        rosdep install -r --from-paths src -i -y --rosdistro noetic
-        ```
-       Note that we only need the folders ros_ign_gazebo and ros_ign_bridge in order to build for SOLAR. If desired, you can remove the other package directories (ros_ign, ros_ign_image, etc).
+### Docker Option
+We provide a Dockerfile to set up the environment with all dependencies.
+```shell
+git clone https://github.com/ExistentialRobotics/LTLCodeGen.git
+cd LTLCodeGen/docker
+./build.bash
+```
+If you prefer to run in the host environment, you can skip the Docker option and follow the instructions below.
 
-## Getting started with the repository
+### Create the catkin workspace
 
-Inside your catkin workspace: ex: solar_ws , cd into src and clone the repository. 
-This will ask for your username and personal access token a few times. 
+```shell
+mkdir -p <your_workspace>/src
+cd <your_workspace>/src
+git clone --recursive https://github.com/ExistentialRobotics/LTLCodeGen.git
+git clone --recursive https://github.com/gazebosim/ros_gz.git -b noetic
+# ignore some catkin packages that are not needed for this project
+rm -rf ros_gz/ros_ign ros_gz/ros_ign_gazebo_demos ros_gz/ros_ign_image ros_gz/ros_ign_point_cloud
+# install the ROS dependencies
+cd <your_workspace>
+rosdep install -r --from-paths src -i -y --rosdistro noetic
+```
 
-## Running Simulation
+### Running Simulation
 1. Running teleop and gazebo ignition: `roslaunch jackal_solar_sim launch_jackal_roam.launch`
 2. Running SSMI and yolo_seg: `roslaunch jackal_solar_sim launch_rgbd_ssmi_solar.launch` and `roslaunch yolo_seg yolo_seg.launch input_topic:=/husky_1/image`
 

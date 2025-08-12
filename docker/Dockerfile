@@ -80,6 +80,8 @@ RUN tar -xvf spot-2.12.2.tar.gz && rm spot-2.12.2.tar.gz && cd spot-2.12.2 && \
 WORKDIR /opt/ros_ws
 RUN /bin/bash -c "source /opt/ros/noetic/setup.bash && catkin build --verbose --cmake-args -DCMAKE_BUILD_TYPE=Release"
 
+ENV GOMP_SPINCOUNT=1
+
 RUN apt-get clean  && rm -rf /var/lib/apt/lists/*
 RUN if [ -n "$APT_MIRROR" ]; then \
         mv /etc/apt/sources.list.backup /etc/apt/sources.list; \

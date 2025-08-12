@@ -17,6 +17,6 @@ octomap:
     max_robot_z: 2
     save_path: "results/label_map/maps/octomap_real.ot"
 
-# pcl pub speed around 8 
+# pcl pub speed around 8
 # segmentation around 8.5-9.0
 # Octomap max around 1.
