@@ -18,6 +18,9 @@
                     <uri>meshes/ground.dae</uri>
                 </mesh>
             </geometry>
+            <plugin filename="ignition-gazebo-label-system" name="ignition::gazebo::systems::Label">
+                <label>6</label>
+            </plugin>
         </visual>
     </link>
     <link name = "carpets"> 
