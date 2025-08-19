@@ -13,7 +13,7 @@ ENV LC_ALL=${LOCALE}
 ARG APT_MIRROR=""
 RUN cp /etc/apt/sources.list /etc/apt/sources.list.backup &&\
     if [ -n "$APT_MIRROR" ]; then \
-        sed -i "s|http://archive.ubuntu.com/ubuntu/|$APT_MIRROR|g" /etc/apt/sources.list; \
+    sed -i "s|http://archive.ubuntu.com/ubuntu/|$APT_MIRROR|g" /etc/apt/sources.list; \
     fi
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
     DEBIAN_FRONTEND=noninteractive apt update && apt install -y locales && locale-gen en_US.UTF-8
@@ -43,7 +43,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt install -y \
     python3-numpy \
     python3-toml \
     python3-scipy \
-    python3-tqdm
+    python3-tqdm \
+    python3-opencv
 RUN rosdep init && rosdep fix-permissions
 # Gazebo Fortress installation
 RUN curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg && \
@@ -69,7 +70,7 @@ WORKDIR /opt
 RUN git clone --recursive https://github.com/gazebosim/ros_gz.git -b noetic
 WORKDIR /opt/ros_ws/src
 RUN ln -s /opt/ros_gz/ros_ign_gazebo ros_ign_gazebo && ln -s /opt/ros_gz/ros_ign_bridge ros_ign_bridge && cd .. && \
-    rosdep update && rosdep install -r --from-paths src -i -y --rosdistro noetic
+    rosdep update --include-eol-distros && rosdep install -r --from-paths src -i -y --rosdistro noetic
 
 WORKDIR /root
 COPY spot-2.12.2.tar.gz spot-2.12.2.tar.gz
@@ -84,5 +85,5 @@ ENV GOMP_SPINCOUNT=1
 
 RUN apt-get clean  && rm -rf /var/lib/apt/lists/*
 RUN if [ -n "$APT_MIRROR" ]; then \
-        mv /etc/apt/sources.list.backup /etc/apt/sources.list; \
+    mv /etc/apt/sources.list.backup /etc/apt/sources.list; \
     fi

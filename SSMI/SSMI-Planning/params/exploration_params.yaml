@@ -1,14 +1,14 @@
 planning:
   footprint:
     type: 'tricky_circle'
-    inflation_scale: 1.0
+    inflation_scale: 1.1
 
-  min_frontier_size: 20
+  min_frontier_size: 10
   planning_epsilon: 1.0
-  goal_check_radius: 0.5
+  goal_check_radius: 1.0
 
   skip_pose: 1000
-  skip_pixel: 50
+  skip_pixel: 25
 
   robot_frame_id: 'husky_1/base_link'
 

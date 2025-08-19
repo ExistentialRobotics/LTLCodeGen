@@ -1,30 +1,27 @@
 #!/usr/bin/env python3
-from __future__ import division
-from __future__ import print_function
+from __future__ import division, print_function
 
 import sys
 import time
+
+import cv2
+import matplotlib.pyplot as plt
+import message_filters
+import numpy as np
 import rospy
 import tf
-import cv2
-
-import numpy as np
-import matplotlib.pyplot as plt
-
-import message_filters
-
-from nav_msgs.msg import OccupancyGrid
-from nav_msgs.msg import Path
-from std_msgs.msg import Bool
 from geometry_msgs.msg import Point, PoseStamped
-
-from ssmi_mapping.costmap import Costmap
-from ssmi_utilities.utils import rc_to_xy, wrap_angles, xy_to_rc, bresenham2d
-from ssmi_footprints.footprint_points import get_tricky_circular_footprint, get_tricky_oval_footprint
-from ssmi_footprints.footprints import CustomFootprint
-from ssmi_planners.astar_cpp import oriented_astar, get_astar_angles
-
+from nav_msgs.msg import OccupancyGrid, Path
 from semantic_octomap.srv import *
+from ssmi_footprints.footprint_points import (
+    get_tricky_circular_footprint,
+    get_tricky_oval_footprint,
+)
+from ssmi_footprints.footprints import CustomFootprint
+from ssmi_mapping.costmap import Costmap
+from ssmi_planners.astar_cpp import get_astar_angles, oriented_astar
+from ssmi_utilities.utils import bresenham2d, rc_to_xy, wrap_angles, xy_to_rc
+from std_msgs.msg import Bool
 
 
 class SemanticExplorationAgent:
