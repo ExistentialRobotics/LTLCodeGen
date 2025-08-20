@@ -1,7 +1,7 @@
 <launch>
     <!-- Parameters -->
     <arg name="robot_name" default="jackal2"/>
-    <arg name="world_frame_id" default="world"/>
+    <arg name="world_frame_id" default="odom"/>
 
     <!-- Flip RGB and Depth image -->
     <node pkg="semantic_octomap" type="img_inverter_node.py" name="rgb_inverter" output="screen">
