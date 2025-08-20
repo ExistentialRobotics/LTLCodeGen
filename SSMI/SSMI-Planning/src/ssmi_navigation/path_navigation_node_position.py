@@ -137,7 +137,7 @@ class PathNavigation:
         sin = np.sin(xi[2])
         cos = np.cos(xi[2])
 
-        if xi[2] != 0:
+        if np.abs(xi[2]) >= 1e-3:
             V = 1 / xi[2] * np.array([[sin, cos - 1], [1 - cos, sin]])
         else:
             V = np.eye(2)
@@ -151,7 +151,7 @@ class PathNavigation:
     @staticmethod
     def SE2_to_se2(T):
         theta = np.arctan2(T[1, 0], T[0, 0])
-        if theta != 0:
+        if np.abs(theta) >= 1e-3:
             A = T[1, 0] / theta
             B = (1 - T[0, 0]) / theta
             V_inv = np.array([[A, B], [-B, A]]) / (A**2 + B**2)
