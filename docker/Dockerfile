@@ -64,10 +64,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt install -y \
     nlohmann-json3-dev
 RUN pip3 install ultralytics scikit-image
 
-WORKDIR /opt/ros_ws/src
-RUN git clone --recursive https://github.com/ExistentialRobotics/LTLCodeGen.git
-WORKDIR /opt
-RUN git clone --recursive https://github.com/gazebosim/ros_gz.git -b noetic
+RUN git clone --recursive https://github.com/ExistentialRobotics/LTLCodeGen.git /opt/ros_ws/src
+RUN git clone --recursive https://github.com/gazebosim/ros_gz.git -b noetic /opt/ros_gz
 WORKDIR /opt/ros_ws/src
 RUN ln -s /opt/ros_gz/ros_ign_gazebo ros_ign_gazebo && ln -s /opt/ros_gz/ros_ign_bridge ros_ign_bridge && cd .. && \
     rosdep update --include-eol-distros && rosdep install -r --from-paths src -i -y --rosdistro noetic
