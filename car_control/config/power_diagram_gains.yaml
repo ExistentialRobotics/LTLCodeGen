@@ -1,5 +1,11 @@
 gains:
+# Those are the control parameters I picked for simulation, the linear to angular gain ratio should be 1:3
   ka: 1.0
-  kl: 2.0
+  kl: 0.3
+
+# Those are the control parameters used before, which are claim to be tuned to run on an actual robot  
+# ka: 1.0
+# kl: 2.0
+
 vmax: 4.0
 wmax: 2.0
