@@ -12,9 +12,9 @@ octomap:
     psi: 1
     phi: -0.1
     publish_2d_map: true
-    min_ground_z: 0.8
-    max_ground_z: 2
-    max_robot_z: 2
+    min_ground_z: 0.1
+    max_ground_z: 0.5
+    max_robot_z: 0.5
     save_path: "results/label_map/maps/octomap_real.ot"
 
 # pcl pub speed around 8
