@@ -6,11 +6,11 @@
     <!-- Flip RGB and Depth image -->
     <node pkg="semantic_octomap" type="img_inverter_node.py" name="rgb_inverter" output="screen">
         <param name="input_topic" value="/$(arg robot_name)/camera/color/image_raw"/>
-        <remap from="/output_img" to="/$(arg robot_name)/flipped/rgb_image" />
+        <remap from="/output_img" to="/$(arg robot_name)/flipped/rgb_image"/>
     </node>
     <node pkg="semantic_octomap" type="img_inverter_node.py" name="depth_inverter" output="screen">
         <param name="input_topic" value="/$(arg robot_name)/camera/depth/image_rect_raw"/>
-        <remap from="/output_img" to="/$(arg robot_name)/flipped/depth_image" />
+        <remap from="/output_img" to="/$(arg robot_name)/flipped/depth_image"/>
     </node>
 
     <!-- SSMI Mapping Parameters-->
