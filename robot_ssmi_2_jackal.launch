@@ -31,7 +31,7 @@
     </node>
 
     <!-- SSMI Planning Parameters-->
-    <rosparam file="$(find semantic_info_gathering)/robot/params/exploration_params.yaml" command="load"/>
+    <rosparam file="$(find semantic_info_gathering)/params/robot/exploration_params.yaml" command="load"/>
     <node name="semantic_exploration" pkg="semantic_info_gathering" type="semantic_exploration_node.py" output="screen"/>
     <node name="path_navigation_node" pkg="semantic_info_gathering" type="path_navigation_node_position.py" output="screen"/>
 
