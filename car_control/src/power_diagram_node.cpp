@@ -77,6 +77,11 @@ PowerDiagramControlNode::publishDDCommand(void) {
 
 void
 PowerDiagramControlNode::publishZeroCommand(void) {
+    if (!have_odom_) {
+        ROS_WARN("No odometry! Not publishing ZeroCommand.");
+        return;
+    } 
+	
     const double v = 0.0;
     const double w = 0.0;
     // Setup Twist Message here.
@@ -141,8 +146,6 @@ PowerDiagramControlNode::odom_callback(const nav_msgs::Odometry::ConstPtr &odom)
         position_cmd_active_ = !controller_.checkReachedGoal(des_pos_, des_yaw_);
     } else {
         publishZeroCommand();
-
-        position_cmd_active_ = !controller_.checkReachedGoal(des_pos_, des_yaw_);
     }
 }
 
@@ -177,8 +180,6 @@ PowerDiagramControlNode::pose_callback(const geometry_msgs::PoseStamped::ConstPt
         position_cmd_active_ = !controller_.checkReachedGoal(des_pos_, des_yaw_);
     } else {
         publishZeroCommand();
-
-        position_cmd_active_ = !controller_.checkReachedGoal(des_pos_, des_yaw_);
     }
 
 }
