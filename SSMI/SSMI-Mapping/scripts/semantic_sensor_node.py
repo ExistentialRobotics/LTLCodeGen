@@ -29,6 +29,8 @@ class SemanticCloud:
         else:
             rospy.logwarn("Invalid point type.")
             return
+        # Get maximum synchronization delay parameter
+        max_delay = rospy.get_param("/semantic_pcl/max_delay", 0.3)
         # Get Unit conversion factor
         unit_conversion = rospy.get_param("/semantic_pcl/unit_conversion")
         # Get image size
@@ -83,7 +85,7 @@ class SemanticCloud:
 
         # Take in color image, semantic image, and depth image with a limited time gap between message time stamps
         self.ts = message_filters.ApproximateTimeSynchronizer(
-            [self.color_sub, self.semantic_sub, self.depth_sub], queue_size=1, slop=0.3
+            [self.color_sub, self.semantic_sub, self.depth_sub], queue_size=1, slop=max_delay
         )
         self.ts.registerCallback(self.color_semantic_depth_callback)
         self.cloud_generator = SemanticPclGenerator(

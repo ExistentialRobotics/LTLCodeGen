@@ -17,3 +17,4 @@ semantic_pcl:
   frame_id: "jackal2/camera_depth_optical_frame"
   depth_noise_std: 0.0
   true_class_prob: 1.0
+  max_delay: 1.0
