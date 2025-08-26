@@ -1,0 +1,21 @@
+<launch>
+    <!-- Get user task-->
+    <node pkg="speech_to_ltl" type="ltl_translate_node.py" name="ltl_translate_node" output="screen">
+    </node>
+
+    <!-- call the launch file label_map.launch in the label_map package-->
+    <include file="$(find label_map)/launch/label_map.launch">
+        <arg name="radius" value="2"/>
+        <arg name="test_package" value="false"/>
+    </include>
+
+    <!-- run spot planner-->
+    <node pkg="solar_planner" type="ltl_planner_node" name="ltl_planner_node" output="screen">
+        <param name="use_sim_time" value="true" />
+    </node>
+
+    <!-- load rviz-->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find jackal_solar_sim)/rviz/planning.rviz" required="true" output="screen">
+    </node>
+
+</launch>

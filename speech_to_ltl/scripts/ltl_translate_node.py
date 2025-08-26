@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import sys
-import os
 
 sys.path.append("/usr/local/lib/python3.8/site-packages")  # ADD THE PATH WHERE SPOT WAS BUILT
 

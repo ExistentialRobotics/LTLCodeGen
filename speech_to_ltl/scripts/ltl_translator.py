@@ -23,16 +23,15 @@ from yolo_parser import (
 
 
 # from speech2text import*
-import yaml
 import os
 
 PROJ_DIR = os.path.join(os.path.dirname(__file__), "../../")
 PROJ_DIR = os.path.realpath(PROJ_DIR)
 
-with open(f"{PROJ_DIR}/speech_to_ltl/config/config_openai.yml") as file:
-    config = yaml.load(file, Loader=yaml.FullLoader)
+openai_key = os.getenv("OPENAI_API_KEY")
+if openai_key is None:
+    raise ValueError("Environment variable `OPENAI_API_KEY` is required but not set.")
 
-openai_key = config["openai_api_key"]
 spot.setup()
 
 
