@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import sys
+import os
 
 sys.path.append("/usr/local/lib/python3.8/site-packages")  # ADD THE PATH WHERE SPOT WAS BUILT
 
@@ -47,10 +48,6 @@ class Translate:
             f"{PROJ_DIR}/SSMI/SSMI-Mapping/params/officesim_color_id.yaml",
             
         )
-        self.api_path = rospy.get_param(
-            "~api_path",
-            f"{PROJ_DIR}/speech_to_ltl/config/config_openai.yml",
-        )
         self.ltl_translator_alg = rospy.get_param(
             "~ltl_translator_alg",
             "code",  # or scenegraph
@@ -78,11 +75,10 @@ class Translate:
         # Get the intersection of the unique ids and the yolo ids
         self.present_ids = self.get_present_ids()
 
-        # Initialize the model
-        with open(self.api_path, "r") as file:
-            config = yaml.load(file, Loader=yaml.FullLoader)
-
-        openai_key = config["openai_api_key"]
+        # Load OpenAI API Key
+        openai_key = os.getenv("OPENAI_API_KEY")
+        if openai_key is None:
+            raise ValueError("Environment variable `OPENAI_API_KEY` is required but not set.")
 
         print("Initializing LLM model...")
         self.llm = llm_init(gpt_api=openai_key)
