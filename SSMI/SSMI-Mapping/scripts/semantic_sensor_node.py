@@ -52,6 +52,8 @@ class SemanticCloud:
         self.noisy_obs = False
         self.depth_noise_std = rospy.get_param("/semantic_pcl/depth_noise_std")
         self.true_class_prob = rospy.get_param("/semantic_pcl/true_class_prob")
+        self.is_semantic_img_classes = rospy.get_param("/semantic_pcl/is_semantic_img_classes", False)
+        self.class_id_color_dict = {}
         if self.depth_noise_std > 0 or self.true_class_prob < 1:
             self.noisy_obs = True
             num_classes = rospy.get_param("/class_labels/num_classes")
@@ -140,10 +142,33 @@ class SemanticCloud:
         if self.noisy_obs is True:
             depth_img, semantic_img = self.add_noise(depth_img, semantic_img)
 
+        cloud_ros = None
         if self.point_type == PointType.SEMANTIC:
-            cloud_ros = self.cloud_generator.generate_cloud_semantic(
-                color_img, semantic_img, depth_img, color_img_ros.header.stamp
-            )
+            if self.is_semantic_img_classes:
+                if np.any(semantic_img[..., -1] == 0):
+                    rospy.logwarn_once("Replace Zeros in Class Image with 7 (class 'rest')")
+                    semantic_img[..., :-1][semantic_img[..., :-1] == 0] = 7
+                class_id_pool = np.unique(semantic_img[:, :, 0].flatten())
+                segmentation_img = np.zeros_like(semantic_img)
+                for class_id in class_id_pool:
+                    try:
+                        if class_id in self.class_id_color_dict:
+                            color = self.class_id_color_dict[class_id]
+                        else:
+                            color = np.array(rospy.get_param("~" + str(class_id))[:3])
+                            self.class_id_color_dict[class_id] = color
+                        class_mask = semantic_img[:, :, 0] == class_id
+                        segmentation_img[class_mask] = color
+                    except:
+                        rospy.logwarn("Error While Converting Class ID to Semantic Color!")
+
+                    cloud_ros = self.cloud_generator.generate_cloud_semantic(
+                        color_img, segmentation_img, depth_img, color_img_ros.header.stamp
+                    )
+            else:
+                cloud_ros = self.cloud_generator.generate_cloud_semantic(
+                    color_img, semantic_img, depth_img, color_img_ros.header.stamp
+                )
         else:
             rospy.logwarn("Point type not supported!")
 
