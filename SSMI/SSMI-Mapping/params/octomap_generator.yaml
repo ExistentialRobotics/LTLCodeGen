@@ -1,7 +1,7 @@
 octomap:
     pointcloud_topic: "/semantic_pcl/semantic_pcl"
     world_frame_id: "odom"
-    resolution: 0.1
+    resolution: 0.2
     max_range: 3.0 # 4.0
     raycast_range: 3.0 # 0.75
     clamping_thres_min: 0.0001
