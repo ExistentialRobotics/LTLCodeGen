@@ -39,28 +39,24 @@
     </group>
 
     <arg name="radius" default="2.0" />
-    <arg name="ap_dict" default= "/ap_dict" />
-    <arg name="ap_id" default= "/ap_id" />
     <arg name="semantic_map" default="/semantic_map_2D" />
     <arg name="label_map" default="/label_map" />
     <arg name="label_map_viz_topic" default="/label_map_viz" />
-    <arg name="test_package" default="true" />
+    <arg name="test_package" default="false" />
 
 
-    <node pkg="label_map" type="ap_pub.py" name="ap_dict_publisher" output="screen" if = "$(arg test_package)">
-        <rosparam file="$(find label_map)/config/message.yaml"/>
-        <param name="dict_topic" value="$(arg ap_dict)"/>
-        <param name="id_topic" value="$(arg ap_id)"/>
-        <param name="rate" value="1"/>
+    <node pkg="speech_to_ltl" type="ltl_translate_node.py" name="ltl_translate_node" output="screen">
     </node>
 
     <node name="ros_label_map" pkg="label_map" type="label_map_ros.py" output="screen">
         <param name="radius" value="$(arg radius)" />
-        <param name="ap_dict" value="$(arg ap_dict)" />
-        <param name="ap_id" value="$(arg ap_id)" />
         <param name="semantic_map" value="$(arg semantic_map)" />
         <param name="label_map" value="$(arg label_map)" />
         <param name="label_map_viz_topic" value="$(arg label_map_viz_topic)" />
+    </node>
+
+    <node pkg="solar_planner" type="ltl_planner_node" name="ltl_planner_node" output="screen">
+        <param name="use_sim_time" value="true" />
     </node>
 
 

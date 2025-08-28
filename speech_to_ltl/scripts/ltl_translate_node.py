@@ -89,7 +89,7 @@ class Translate:
         yolo_id_conversion_prompt = get_yolo_id_convert_prompt()
         yolo_id_conversion_chain = LLMChain(llm=self.llm, prompt=yolo_id_conversion_prompt, verbose=verbose)
 
-        instruction = "Go to car then the monitor."
+        instruction = "Go to wall then the monitor."
         print("instruction:", instruction, "\n")
 
         tick = time.time()
