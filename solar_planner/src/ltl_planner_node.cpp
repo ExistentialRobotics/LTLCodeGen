@@ -266,7 +266,7 @@ public:
         automaton_sub_ = nh_.subscribe("/aut_str", 1, &LTLPlannerNode::automatonCallback, this);
 
         // Path publisher
-        path_pub_ = nh_.advertise<nav_msgs::Path>("computed_path", 1);
+        path_pub_ = nh_.advertise<nav_msgs::Path>("computed_path", 1, true);
 
         // AP to Id dict publisher
         ap_id_pub_ = nh_.advertise<std_msgs::String>("ap_id", 1);
@@ -308,6 +308,7 @@ private:
     bool label_map_received_ = false;
     bool automaton_received_ = false;
     bool pose_received_ = false;
+    bool maps_same_dim_ = false;
 
     // Function to get nav_msgs::Odometry from TF
     nav_msgs::Odometry getOdomFromTF(const std::string &robot_frame_id)
@@ -517,7 +518,15 @@ private:
         // current_pose_ = getOdomFromTF(robot_frame_id);
         pose_received_ = true;
 
-        if (automaton_received_ && occ_map_received_ && label_map_received_ && pose_received_)
+        // need to check if map dimensions matches before planning
+        maps_same_dim_ = (current_occ_map_.info.width  == current_label_map_.info.width &&
+        current_occ_map_.info.height == current_label_map_.info.height);
+
+        if (!maps_same_dim_) {
+        ROS_INFO("Maps are not aligned in dimensions. Waiting until they match ...");
+        }
+
+        if (automaton_received_ && occ_map_received_ && label_map_received_ && pose_received_ && maps_same_dim_)
         {
             ROS_INFO("Attempting to compute path...");
             ////////////////////////////////////////////////
@@ -539,17 +548,11 @@ private:
 
             nav_msgs::Path path_msg = convertToPath(path, current_occ_map_.header.frame_id);
 
-            // while ros is ok
-            while (ros::ok())
-            {
-                path_pub_.publish(path_msg);
-                // wait 1 second
-                ros::Duration(1.0).sleep();
-            }
+            path_pub_.publish(path_msg);
 
             // Delay for 10 seconds before allowing a new path computation
-            ROS_INFO("Waiting forever seconds before re-planning...");
-            ros::Duration(100000.0).sleep();
+            ROS_INFO("Waiting 10 seconds before re-planning...");
+            ros::Duration(10.0).sleep();
         }
     }
 
