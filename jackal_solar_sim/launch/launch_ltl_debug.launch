@@ -12,6 +12,10 @@
     <!-- run spot planner-->
     <node pkg="solar_planner" type="ltl_planner_node" name="ltl_planner_node" output="screen">
         <param name="use_sim_time" value="true" />
+        <param name="world_frame_id" value="world"/>
+        <param name="debug_mode" value="true"/>
+        <param name="debug_pose_x" value="32.0"/>
+        <param name="debug_pose_y" value="12.0"/>
     </node>
 
     <!-- load rviz-->

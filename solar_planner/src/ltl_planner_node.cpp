@@ -271,12 +271,19 @@ public:
         // AP to Id dict publisher
         ap_id_pub_ = nh_.advertise<std_msgs::String>("ap_id", 1);
 
-        // Get the world frame id
-        // world_frame_id = "odom";
-        world_frame_id = "world";
+        // Private node handle for parameters (~param_name)
+        ros::NodeHandle pnh("~");
 
-        // Get the robot frame id
-        robot_frame_id = "jackal1/base_link";
+        // Load frame ids and debug flag
+        pnh.param("world_frame_id", world_frame_id, std::string("odom"));
+        pnh.param("robot_frame_id", robot_frame_id, std::string("husky_1/base_link"));
+        pnh.param("debug_mode", debug_mode_, true);
+        pnh.param("debug_pose_x", debug_pose_x_, 0.0);
+        pnh.param("debug_pose_y", debug_pose_y_, 0.0);
+
+        ROS_INFO_STREAM("world_frame_id = " << world_frame_id);
+        ROS_INFO_STREAM("robot_frame_id = " << robot_frame_id);
+        ROS_INFO_STREAM("debug_mode = " << (debug_mode_ ? "true" : "false"));
     }
 
 private:
@@ -309,6 +316,11 @@ private:
     bool automaton_received_ = false;
     bool pose_received_ = false;
     bool maps_same_dim_ = false;
+
+    // debug settings
+    bool debug_mode_;
+    double debug_pose_x_;
+    double debug_pose_y_;
 
     // Function to get nav_msgs::Odometry from TF
     nav_msgs::Odometry getOdomFromTF(const std::string &robot_frame_id)
@@ -515,8 +527,13 @@ private:
 
     void attemptPathPlanning()
     {
-        // current_pose_ = getOdomFromTF(robot_frame_id);
-        pose_received_ = true;
+        if (debug_mode_){
+            current_pose_.pose.pose.position.x = debug_pose_x_;
+            current_pose_.pose.pose.position.y = debug_pose_y_;
+            pose_received_ = true;
+        } else {
+            current_pose_ = getOdomFromTF(robot_frame_id);
+        }
 
         // need to check if map dimensions matches before planning
         maps_same_dim_ = (current_occ_map_.info.width  == current_label_map_.info.width &&
@@ -529,12 +546,6 @@ private:
         if (automaton_received_ && occ_map_received_ && label_map_received_ && pose_received_ && maps_same_dim_)
         {
             ROS_INFO("Attempting to compute path...");
-            ////////////////////////////////////////////////
-            // Get the current robot pose from TF
-            // current_pose_ = getOdomFromTF(robot_frame_id);
-
-            current_pose_.pose.pose.position.x = 32.0;
-            current_pose_.pose.pose.position.y = 12.0;
 
             double temp = current_pose_.pose.pose.position.x;
             current_pose_.pose.pose.position.x = current_pose_.pose.pose.position.y;
@@ -560,16 +571,13 @@ private:
     {
         nav_msgs::Path path_msg;
         path_msg.header.stamp = ros::Time::now();
-        // path_msg.header.frame_id = frame_id;
-        // path_msg.header.frame_id = "odom";
-        path_msg.header.frame_id = "world";
+        path_msg.header.frame_id = world_frame_id;
 
         for (const auto &pose : poses)
         {
             geometry_msgs::PoseStamped pose_stamped;
             pose_stamped.header.stamp = ros::Time::now();
-            // pose_stamped.header.frame_id = "odom";
-            pose_stamped.header.frame_id = "world";
+            pose_stamped.header.frame_id = world_frame_id;
             pose_stamped.pose = pose;
             double tmp = pose_stamped.pose.position.x;
             pose_stamped.pose.position.x = pose_stamped.pose.position.y;
