@@ -4,7 +4,7 @@
     <arg name="want_gui" default="false"/>
     <arg name="sim" default="true"/>
     <arg name="robot_name" default="husky_1"/>
-    <arg name="active_mapping" default="true"/>
+    <arg name="active_mapping" default="false"/>
 
     <!-- Launch the corresponding environment if sim otherwise don't launch-->
     <group if="$(arg sim)">
