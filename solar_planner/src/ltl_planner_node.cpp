@@ -561,6 +561,10 @@ private:
 
             path_pub_.publish(path_msg);
 
+            // Ensure maps are relatively up-to-date during next planning
+            occ_map_received_ = false;
+            label_map_received_ = false;
+
             // Delay for 10 seconds before allowing a new path computation
             ROS_INFO("Waiting 10 seconds before re-planning...");
             ros::Duration(10.0).sleep();
