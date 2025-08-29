@@ -63,6 +63,10 @@ class Translate:
             "~load_all_possible_ids",
             True,
         )
+        instruction = rospy.get_param(
+            "~llm_instructions",
+            "Go to car then the fire hydrant.",
+       )
 
         # Publishers for the automaton and atomic propositions
         self.automaton_pub = rospy.Publisher("aut_str", String, queue_size=1)  # Might need to write to file
@@ -99,7 +103,6 @@ class Translate:
         yolo_id_conversion_prompt = get_yolo_id_convert_prompt()
         yolo_id_conversion_chain = LLMChain(llm=self.llm, prompt=yolo_id_conversion_prompt, verbose=verbose)
 
-        instruction = "Go to car then the fire hydrant."
         print("instruction:", instruction, "\n")
 
         tick = time.time()
