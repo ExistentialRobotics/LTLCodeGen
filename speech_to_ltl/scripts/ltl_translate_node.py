@@ -29,7 +29,7 @@ from code_ltl_translator import code_ltl_translator
 
 n_chain_repeat = 1
 verbose = False
-for_debug = False
+for_debug = True
 
 PROJ_DIR = os.path.join(os.path.dirname(__file__), "../../")
 PROJ_DIR = os.path.realpath(PROJ_DIR)
@@ -59,14 +59,24 @@ class Translate:
             "~enable_syntactic_check",
             False,
         )
+        self.load_all_possible_ids = rospy.get_param(
+            "~load_all_possible_ids",
+            True,
+        )
 
         # Publishers for the automaton and atomic propositions
         self.automaton_pub = rospy.Publisher("aut_str", String, queue_size=1)  # Might need to write to file
         self.ap_pub = rospy.Publisher("ap_dict", String, queue_size=1)
 
         # Load the semantic map
-        self.semantic_map = np.load(self.semantic_file_path)
-        self.unique_ids = np.unique(self.semantic_map)
+        if self.load_all_possible_ids:
+            with open(self.all_classes_file_path, "r") as file:
+                all_classes = yaml.load(file, Loader=yaml.FullLoader)
+                ids = [int(k) for k in all_classes.keys()]
+                self.unique_ids = np.unique(ids)
+        else:
+            self.semantic_map = np.load(self.semantic_file_path)
+            self.unique_ids = np.unique(self.semantic_map)
 
         if for_debug:
             print("Unique ids: ", self.unique_ids)
