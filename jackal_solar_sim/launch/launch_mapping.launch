@@ -30,11 +30,22 @@
         <include file="$(find semantic_info_gathering)/launch/run_semantic_exploration.launch">
             <arg name="rviz" value="false"/>
         </include>
-        <node name="power_diagram_node" pkg="car_control" type="power_diagram_node" output="screen">
-            <rosparam file="$(find car_control)/config/power_diagram_gains.yaml" command="load"/>
-            <remap from="~position_cmd" to="/planner/position_cmd"/>
-            <remap from="~pose" to="/$(arg robot_name)/pose"/>
-            <remap from="~commands" to="/$(arg robot_name)/cmd_vel" />
+        <node pkg="car_control" type="cone_controller_node.py" name="cone_controller"  output="screen">
+          <param name="odom_topic" value="/$(arg robot_name)/pose"/>
+          <param name="odom_type" value="poseS"/>
+          <param name="setpoint_topic" value="/planner/position_cmd"/>
+          <param name="setpoint_type" value="poseS"/>
+          <remap from="/cmd_vel" to="/$(arg robot_name)/cmd_vel" />
+          <param name="ctrl_freq" value="50.0"/>
+          <param name="kv" value="0.5"/>
+          <param name="kw" value="1.5"/>
+          <!-- Control limits are set as the same as in control.yaml in jackal_control package -->
+          <!-- linear velocity limit m/sec-->
+          <param name="v_min" value="-2.0"/>
+          <param name="v_max" value="2.0"/>
+          <!-- angular velocity limit rad/sec-->
+          <param name="w_min" value="-4.0"/>
+          <param name="w_max" value="4.0"/>
         </node>
     </group>
 
