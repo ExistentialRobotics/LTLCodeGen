@@ -61,17 +61,17 @@ class UnicycleControlPreprocess:
         # subscribers
         if _odom_type == "poseS":
             self._odom_sub = rospy.Subscriber(_odom_topic, PoseStamped, self.odom_callback)
-            rospy.logwarn("Odometry message type is specified to: [PoseStamped]")
+            rospy.logwarn("[cone controller] Odometry message type is specified to: [PoseStamped]")
         else:
             self._odom_sub = rospy.Subscriber(_odom_topic, Odometry, self.odom_callback)
-            rospy.logwarn("Odometry message type is specified to: [Odometry]")
+            rospy.logwarn("[cone controller] Odometry message type is specified to: [Odometry]")
 
         if _setpoint_type == "poseS":
             self._setpoint_sub = rospy.Subscriber(_setpoint_topic, PoseStamped, self.setpoint_callback)
-            rospy.logwarn("Setpoint message type is specified to: [PoseStamped]")
+            rospy.logwarn("[cone controller] Setpoint message type is specified to: [PoseStamped]")
         else:
             self._setpoint_sub = rospy.Subscriber(_setpoint_topic, Pose2D, self.setpoint_callback)
-            rospy.logwarn("Setpoint message type is specified to: [Pose2D]")
+            rospy.logwarn("[cone controller] Setpoint message type is specified to: [Pose2D]")
 
         # upstream status variables
         self._upstream_connection = 0
