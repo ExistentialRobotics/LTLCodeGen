@@ -1,11 +1,14 @@
 planning:
   footprint:
     type: 'tricky_circle'
-    inflation_scale: 1.1
+    inflation_scale: 1.5
 
   min_frontier_size: 10
-  planning_epsilon: 1.0
-  goal_check_radius: 1.0
+  planning_epsilon: 2.0
+  goal_check_radius: 0.15
+
+  do_path_update: true
+  min_path_length: 0.5
 
   skip_pose: 1000
   skip_pixel: 25

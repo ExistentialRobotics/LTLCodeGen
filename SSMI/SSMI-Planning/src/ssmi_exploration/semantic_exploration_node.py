@@ -31,6 +31,8 @@ class SemanticExplorationAgent:
 
         self.planning_angles = get_astar_angles()
         self.planning_epsilon = rospy.get_param("/planning/planning_epsilon")
+        self.do_path_update = rospy.get_param("/planning/do_path_update", False)
+        self.min_path_length = rospy.get_param("/planning/min_path_length", 0.2)
 
         footprint_type = rospy.get_param("/planning/footprint/type")
 
@@ -179,6 +181,10 @@ class SemanticExplorationAgent:
         if self.check_ready():
             rospy.loginfo("Planning started!")
             self.plan(exploration_map)
+        else:
+            if self.goal is not None and self.do_path_update:
+                rospy.loginfo("Updating started!")
+                self.updated_path(exploration_map)
 
     def check_ready(self):
         if self.goal is None:
@@ -246,7 +252,7 @@ class SemanticExplorationAgent:
                     goal=f,
                     delta=self.footprint_mask_radius,
                 )
-                if plan_success and np.sum(np.linalg.norm(path[1:, :2] - path[:-1, :2], axis=1)) > 0.2:
+                if plan_success and np.sum(np.linalg.norm(path[1:, :2] - path[:-1, :2], axis=1)) > self.min_path_length:
                     path_list.append(path)
                     path_score_list.append(self.compute_path_score(path))
 
@@ -282,6 +288,44 @@ class SemanticExplorationAgent:
             self.path_rc = self.path_rc.astype(int)
 
             self.publish_path(best_path)
+
+    def updated_path(self, occupancy_map):
+        exploration_map = cleanup_map_for_planning(
+            occupancy_map=occupancy_map, kernel=self.kernel, filter_obstacles=False
+        )
+
+        robot_pose = self.get_pose_from_tf(self.robot_frame_id)
+
+        self.footprint.draw_circumscribed(robot_pose, exploration_map)
+
+        plan_success, updated_path = oriented_astar(
+            start=robot_pose,
+            occupancy_map=exploration_map,
+            footprint_masks=self.footprint_masks,
+            outline_coords=self.footprint_outline_coords,
+            obstacle_values=[Costmap.OCCUPIED, Costmap.UNEXPLORED],
+            epsilon=self.planning_epsilon,
+            goal=self.goal,
+            delta=self.footprint_mask_radius,
+        )
+
+        if plan_success and updated_path.shape[0] > 1:
+            pose_rc_1 = xy_to_rc(updated_path[0, :2], exploration_map)
+            pose_rc_2 = xy_to_rc(updated_path[1, :2], exploration_map)
+            self.path_rc = bresenham2d(pose_rc_1, pose_rc_2)
+            for pose_idx in range(1, updated_path.shape[0] - 1):
+                pose_rc_1 = xy_to_rc(updated_path[pose_idx, :2], exploration_map)
+                pose_rc_2 = xy_to_rc(updated_path[pose_idx + 1, :2], exploration_map)
+                self.path_rc = np.vstack((self.path_rc, bresenham2d(pose_rc_1, pose_rc_2)))
+
+            self.path_rc = self.path_rc.astype(int)
+
+            self.publish_path(updated_path)
+        else:
+            rospy.logwarn("Planning failed during update!")
+            self.path_rc = xy_to_rc(robot_pose, exploration_map)[None, :2].astype(int)
+            self.goal = robot_pose
+            return
 
     def publish_path(self, path):
         path_msg = Path()
