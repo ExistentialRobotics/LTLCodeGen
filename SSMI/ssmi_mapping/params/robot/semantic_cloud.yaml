@@ -1,0 +1,22 @@
+semantic_sensor_node:
+  ros__parameters:
+    # Camera intrinsic matrix parameters
+    camera:
+      fx: 382
+      fy: 327
+      cx: 381
+      cy: 241
+
+      width: 640
+      height: 480
+
+    semantic_pcl:
+      color_image_topic: "/jackal2/camera/color/image_raw"
+      semantic_image_topic: "/jackal2/camera/semantic/class_map"
+      depth_image_topic: "/jackal2/camera/depth/image_raw"
+      point_type: 0
+      unit_conversion: 1000.0
+      frame_id: "jackal2/camera_accel_frame"
+      depth_noise_std: 0.0
+      true_class_prob: 1.0
+      max_delay: 1.0

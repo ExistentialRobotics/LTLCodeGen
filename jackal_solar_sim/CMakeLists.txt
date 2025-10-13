@@ -1,15 +1,52 @@
-cmake_minimum_required(VERSION 3.0.2)
-project(jackal_solar_sim VERSION 0.1.0)
+cmake_minimum_required(VERSION 3.8)
+project(jackal_solar_sim)
 
-find_package(catkin REQUIRED #
-             COMPONENTS geometry_msgs roscpp rospy std_msgs tf2_ros sensor_msgs ros_ign_gazebo)
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
 
-catkin_package()
-include_directories(${catkin_INCLUDE_DIRS})
+# find dependencies
+find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
+find_package(rclpy REQUIRED)
 
-catkin_install_python(PROGRAMS scripts/dynamic_tf_solar.py scripts/dynamic_tf.py #
-                      DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+# Install Python modules
+ament_python_install_package(${PROJECT_NAME})
 
-install(DIRECTORY launch DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
-install(DIRECTORY models DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
-install(DIRECTORY rviz DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+# Install Python executables
+install(PROGRAMS
+  jackal_solar_sim/dynamics_tf.py
+  jackal_solar_sim/dynamic_tf_solar.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+# Install launch files
+install(DIRECTORY
+  launch
+  DESTINATION share/${PROJECT_NAME}/
+)
+
+# Install models
+install(DIRECTORY
+  models
+  DESTINATION share/${PROJECT_NAME}/
+)
+
+# Install rviz config
+install(DIRECTORY
+  rviz
+  DESTINATION share/${PROJECT_NAME}/
+)
+
+# Install config files
+install(DIRECTORY
+  config
+  DESTINATION share/${PROJECT_NAME}/
+)
+
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  ament_lint_auto_find_test_dependencies()
+endif()
+
+ament_package()

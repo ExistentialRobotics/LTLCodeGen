@@ -1,80 +1,65 @@
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.8)
 project(solar_planner)
 
-# Specify the C++ standard
+# C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Find catkin and any catkin packages
-find_package(catkin REQUIRED COMPONENTS 
-    roscpp 
-    rospy 
-    std_msgs
-    nav_msgs
-    geometry_msgs 
-    genmsg
-    tf
-    tf2
-    tf2_ros
-    tf2_geometry_msgs
-)
+# Ament + ROS 2 deps
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(tf2 REQUIRED)
+find_package(tf2_ros REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
 
-# YAML-CPP
+# Third-party deps
 find_package(yaml-cpp REQUIRED)
-include_directories(${YAML_CPP_INCLUDE_DIRS})
-
-# Boost
-find_package(Boost COMPONENTS serialization iostreams system filesystem REQUIRED)
-include_directories(${Boost_INCLUDE_DIRS})
-
-# Eigen3
+find_package(Boost REQUIRED COMPONENTS serialization iostreams system filesystem)
 find_package(Eigen3 REQUIRED)
-include_directories(${EIGEN3_INCLUDE_DIR})
-
-# Spot
-include_directories(/usr/local/include/spot) # Include Spot headers
-
-# Declare a catkin package
-catkin_package(
-  CATKIN_DEPENDS 
-    roscpp 
-    std_msgs 
-    nav_msgs 
-    geometry_msgs 
-    tf2
-    tf2_ros
-    tf2_geometry_msgs
-)
-
-# json
-add_compile_definitions(JSON_DIAGNOSTICS=1)
 find_package(nlohmann_json REQUIRED)
 
+# Executable
+add_executable(ltl_planner_node src/ltl_planner_node.cpp)
 
-include_directories(include ${catkin_INCLUDE_DIRS} ${nlohmann_json_INCLUDE_DIRS})
+ament_target_dependencies(ltl_planner_node
+        rclcpp
+        std_msgs
+        nav_msgs
+        geometry_msgs
+        tf2
+        tf2_ros
+        tf2_geometry_msgs
+)
 
-# Define executables
-add_executable(ltl_planner_node 
-                src/ltl_planner_node.cpp)
+target_compile_definitions(ltl_planner_node PRIVATE JSON_DIAGNOSTICS=1)
 
+target_include_directories(ltl_planner_node PRIVATE
+        include
+        ${EIGEN3_INCLUDE_DIRS}
+        /usr/local/include/spot   # Spot headers
+)
 
 target_link_libraries(ltl_planner_node
-  ${catkin_LIBRARIES}
-  ${Boost_LIBRARIES}
-  spot
-  bddx
-  yaml-cpp
-  nlohmann_json::nlohmann_json
+        yaml-cpp
+        nlohmann_json::nlohmann_json
+        ${Boost_LIBRARIES}
+        spot
+        bddx
+        Eigen3::Eigen
 )
 
-
-# Install Python scripts
-catkin_install_python(PROGRAMS
-  scripts/tracker_node.py
-  scripts/tracker_odom_node.py
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+# Install C++ node
+install(TARGETS ltl_planner_node
+        DESTINATION lib/${PROJECT_NAME}
 )
 
+# (Optional) install launch files
+install(DIRECTORY launch
+        DESTINATION share/${PROJECT_NAME}
+)
 
-
+ament_package()

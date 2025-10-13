@@ -1,15 +1,8 @@
-#include <ros/ros.h>
-#include <nav_msgs/OccupancyGrid.h>
-#include <nav_msgs/Path.h>
-#include <geometry_msgs/PoseStamped.h>
-#include <std_msgs/String.h>
-#include <nav_msgs/Odometry.h>
 #include <vector>
 #include <map>
 #include <sstream>
 #include <string>
 #include <yaml-cpp/yaml.h>
-#include <tf2/LinearMath/Quaternion.h>
 
 #include <spot/parseaut/public.hh>
 #include <spot/twa/bdddict.hh>
@@ -18,9 +11,20 @@
 #include "solar_planner/environments/planning_spot_2d.h"
 #include "solar_planner/astar_nx.h"
 
-#include <tf/transform_listener.h>
+#include <rclcpp/rclcpp.hpp>
+#include <nav_msgs/msg/occupancy_grid.hpp>
+#include <nav_msgs/msg/path.hpp>
+#include <geometry_msgs/msg/pose_stamped.hpp>
+#include <std_msgs/msg/string.hpp>
+#include <nav_msgs/msg/odometry.hpp>
+#include <tf2_ros/buffer.h>
+#include <tf2_ros/transform_listener.h>
+#include <geometry_msgs/msg/transform_stamped.hpp>
+#include <tf2/exceptions.h>
+#include <tf2/LinearMath/Quaternion.h>
 
 #include <cmath>
+#include <iostream>
 
 void custom_print(std::ostream &out, const spot::twa_graph_ptr &aut)
 {
@@ -82,10 +86,10 @@ void custom_print(std::ostream &out, const spot::twa_graph_ptr &aut)
     }
 }
 
-std::vector<geometry_msgs::Pose> computePath(const spot::twa_graph_ptr &automaton,
-                                             const nav_msgs::Odometry &our_pose,
-                                             nav_msgs::OccupancyGrid occ_map,
-                                             nav_msgs::OccupancyGrid label_map)
+std::vector<geometry_msgs::msg::Pose> computePath(const spot::twa_graph_ptr &automaton,
+                                             const nav_msgs::msg::Odometry &our_pose,
+                                             nav_msgs::msg::OccupancyGrid occ_map,
+                                             nav_msgs::msg::OccupancyGrid label_map)
 {
     // TODO: Get map data
     custom_print(std::cout, automaton);
@@ -171,11 +175,11 @@ std::vector<geometry_msgs::Pose> computePath(const spot::twa_graph_ptr &automato
 
     if (map_succ)
     {
-        ROS_INFO("Map successfully initialized!");
+        std::cout << "Map successfully initialized!\n";
     }
     else
     {
-        ROS_ERROR("Failed to initialize map!");
+        std::cerr << "Failed to initialize map!\n";
     }
 
     //  Read label map
@@ -235,10 +239,10 @@ std::vector<geometry_msgs::Pose> computePath(const spot::twa_graph_ptr &automato
     std::cout << "action_idx.size() = " << output.action_idx.size() << std::endl;
 
     // Convert grid coordinates to poses
-    std::vector<geometry_msgs::Pose> our_poses;
+    std::vector<geometry_msgs::msg::Pose> our_poses;
     for (auto &coord : output.path)
     {
-        geometry_msgs::Pose pose;
+        geometry_msgs::msg::Pose pose;
         pose.position.x = erl::cells2meters(coord[0], mapmin[0], mapres[0]);
         pose.position.y = erl::cells2meters(coord[1], mapmin[1], mapres[1]);
         pose.position.z = 0.0;
@@ -249,62 +253,64 @@ std::vector<geometry_msgs::Pose> computePath(const spot::twa_graph_ptr &automato
     return our_poses;
 }
 
-class LTLPlannerNode
+class LTLPlannerNode : public rclcpp::Node
 {
 public:
-    LTLPlannerNode()
+    LTLPlannerNode() : rclcpp::Node("ltl_planner_node"),
+                       tf_buffer_(this->get_clock()), tf_listener_(tf_buffer_)
     {
-
-        ROS_INFO("Setting up Planning!");
+        RCLCPP_INFO(this->get_logger(), "Setting up Planning!");
         // Occupancy map subscriber
-        occ_map_sub_ = nh_.subscribe("/occupancy_map_2D", 1, &LTLPlannerNode::occMapCallback, this);
+        occ_map_sub_ = this->create_subscription<nav_msgs::msg::OccupancyGrid>("occupancy_map_2D", 10, std::bind(&LTLPlannerNode::occMapCallback, this, std::placeholders::_1));
 
         // Label map subscriber
-        label_map_sub_ = nh_.subscribe("/label_map", 1, &LTLPlannerNode::labelMapCallback, this);
+        label_map_sub_ = this->create_subscription<nav_msgs::msg::OccupancyGrid>("label_map", 10, std::bind(&LTLPlannerNode::labelMapCallback, this, std::placeholders::_1));
 
         // Automaton subscriber
-        automaton_sub_ = nh_.subscribe("/aut_str", 1, &LTLPlannerNode::automatonCallback, this);
+        automaton_sub_ = this->create_subscription<std_msgs::msg::String>("aut_str", 10, std::bind(&LTLPlannerNode::automatonCallback, this, std::placeholders::_1));
 
         // Path publisher
-        path_pub_ = nh_.advertise<nav_msgs::Path>("computed_path", 1, true);
+        path_pub_ = this->create_publisher<nav_msgs::msg::Path>("computed_path", 10);
 
         // AP to Id dict publisher
-        ap_id_pub_ = nh_.advertise<std_msgs::String>("ap_id", 1);
+        ap_id_pub_ = this->create_publisher<std_msgs::msg::String>("ap_id", 10);
 
-        // Private node handle for parameters (~param_name)
-        ros::NodeHandle pnh("~");
+        this->declare_parameter<std::string>("world_frame_id", "odom");
+        this->declare_parameter<std::string>("robot_frame_id", "husky_1/base_link");
+        this->declare_parameter<bool>("debug_mode", true);
+        this->declare_parameter<double>("debug_pose_x", 0.0);
+        this->declare_parameter<double>("debug_pose_y", 0.0);
+        world_frame_id = this->get_parameter("world_frame_id").as_string();
+        robot_frame_id = this->get_parameter("robot_frame_id").as_string();
+        debug_mode_    = this->get_parameter("debug_mode").as_bool();
+        debug_pose_x_  = this->get_parameter("debug_pose_x").as_double();
+        debug_pose_y_  = this->get_parameter("debug_pose_y").as_double();
 
-        // Load frame ids and debug flag
-        pnh.param("world_frame_id", world_frame_id, std::string("odom"));
-        pnh.param("robot_frame_id", robot_frame_id, std::string("husky_1/base_link"));
-        pnh.param("debug_mode", debug_mode_, true);
-        pnh.param("debug_pose_x", debug_pose_x_, 0.0);
-        pnh.param("debug_pose_y", debug_pose_y_, 0.0);
-
-        ROS_INFO_STREAM("world_frame_id = " << world_frame_id);
-        ROS_INFO_STREAM("robot_frame_id = " << robot_frame_id);
-        ROS_INFO_STREAM("debug_mode = " << (debug_mode_ ? "true" : "false"));
+        RCLCPP_INFO(this->get_logger(), "world_frame_id = %s", world_frame_id.c_str());
+        RCLCPP_INFO(this->get_logger(), "robot_frame_id = %s", robot_frame_id.c_str());
+        RCLCPP_INFO(this->get_logger(), "debug_mode = %s", (debug_mode_ ? "true" : "false"));
     }
 
 private:
-    ros::NodeHandle nh_;
-    ros::Subscriber occ_map_sub_;
-    ros::Subscriber label_map_sub_;
-    ros::Subscriber automaton_sub_;
-    ros::Publisher path_pub_;
-    ros::Publisher ap_id_pub_;
+    rclcpp::Subscription<nav_msgs::msg::OccupancyGrid>::SharedPtr occ_map_sub_;
+    rclcpp::Subscription<nav_msgs::msg::OccupancyGrid>::SharedPtr label_map_sub_;
+    rclcpp::Subscription<std_msgs::msg::String>::SharedPtr automaton_sub_;
+    rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr path_pub_;
+    rclcpp::Publisher<std_msgs::msg::String>::SharedPtr ap_id_pub_;
 
     // These are modified for appropriate dimensions
-    nav_msgs::OccupancyGrid current_occ_map_;
-    nav_msgs::OccupancyGrid current_label_map_;
+    nav_msgs::msg::OccupancyGrid current_occ_map_;
+    nav_msgs::msg::OccupancyGrid current_label_map_;
 
     // these are used to check if map is updated
-    nav_msgs::OccupancyGrid none_modified_occ_map_;
-    nav_msgs::OccupancyGrid none_modified_label_map_;
+    nav_msgs::msg::OccupancyGrid none_modified_occ_map_;
+    nav_msgs::msg::OccupancyGrid none_modified_label_map_;
 
-    nav_msgs::Odometry current_pose_;
+    nav_msgs::msg::Odometry current_pose_;
 
-    tf::TransformListener tf_listener;
+    // TF2
+    tf2_ros::Buffer tf_buffer_;
+    tf2_ros::TransformListener tf_listener_;
 
     std::string world_frame_id;
     std::string robot_frame_id;
@@ -323,43 +329,40 @@ private:
     double debug_pose_y_;
 
     // Function to get nav_msgs::Odometry from TF
-    nav_msgs::Odometry getOdomFromTF(const std::string &robot_frame_id)
+    nav_msgs::msg::Odometry getOdomFromTF(const std::string &robot_frame_id)
     {
-        nav_msgs::Odometry odom_msg;
-        tf::StampedTransform transform;
+        nav_msgs::msg::Odometry odom_msg;
+        geometry_msgs::msg::TransformStamped tf;
 
         try
         {
-            tf_listener.lookupTransform(world_frame_id, robot_frame_id, ros::Time(0), transform);
+            tf = tf_buffer_.lookupTransform(world_frame_id, robot_frame_id, tf2::TimePointZero);
         }
-        catch (tf::TransformException &ex)
+        catch (const tf2::TransformException &ex)
         {
-            ROS_ERROR("%s", ex.what());
+            RCLCPP_ERROR(this->get_logger(), "%s", ex.what());
             return odom_msg; // Return empty odometry if lookup fails
         }
 
         // Fill out the nav_msgs::Odometry message
-        odom_msg.header.stamp = ros::Time::now();
+        odom_msg.header.stamp = this->get_clock()->now();
         odom_msg.header.frame_id = world_frame_id;
         odom_msg.child_frame_id = robot_frame_id;
 
         // Set the position (translation)
-        odom_msg.pose.pose.position.x = transform.getOrigin().x();
-        odom_msg.pose.pose.position.y = transform.getOrigin().y();
-        odom_msg.pose.pose.position.z = transform.getOrigin().z();
+        odom_msg.pose.pose.position.x = tf.transform.translation.x;
+        odom_msg.pose.pose.position.y = tf.transform.translation.y;
+        odom_msg.pose.pose.position.z = tf.transform.translation.z;
 
         // Set the orientation (rotation)
-        odom_msg.pose.pose.orientation.x = transform.getRotation().x();
-        odom_msg.pose.pose.orientation.y = transform.getRotation().y();
-        odom_msg.pose.pose.orientation.z = transform.getRotation().z();
-        odom_msg.pose.pose.orientation.w = transform.getRotation().w();
+        odom_msg.pose.pose.orientation = tf.transform.rotation;
 
         pose_received_ = true;
 
         return odom_msg;
     }
 
-    void occMapCallback(const nav_msgs::OccupancyGrid::ConstPtr &msg)
+    void occMapCallback(const nav_msgs::msg::OccupancyGrid::ConstSharedPtr & msg)
     {
         // Check if the map has already been received and if it matches the current map
         if (occ_map_received_ &&
@@ -375,15 +378,15 @@ private:
         none_modified_occ_map_ = *msg;
 
         // Print the received map info
-        ROS_INFO("Got a new occ map!");
+        RCLCPP_INFO(this->get_logger(), "Got a new occ map!");
 
         // Copy the received map to modify it
-        nav_msgs::OccupancyGrid modified_map = *msg;
+        nav_msgs::msg::OccupancyGrid modified_map = *msg;
 
         // Check if width is even, if so, add a column of obstacles
         if (modified_map.info.width % 2 == 0)
         {
-            ROS_INFO("Width is even. Adding a column of obstacles...");
+            RCLCPP_INFO(this->get_logger(), "Width is even. Adding a column of obstacles...");
             // Add a column of obstacles (value 100)
             for (int i = 0; i < modified_map.info.height; ++i)
             {
@@ -395,7 +398,7 @@ private:
         // Check if height is even, if so, add a row of obstacles
         if (modified_map.info.height % 2 == 0)
         {
-            ROS_INFO("Height is even. Adding a row of obstacles...");
+            RCLCPP_INFO(this->get_logger(), "Height is even. Adding a row of obstacles...");
             // Add a row of obstacles (value 100)
             for (int i = 0; i < modified_map.info.width; ++i)
             {
@@ -407,13 +410,13 @@ private:
         // Now assign the modified map as the current map
         current_occ_map_ = modified_map;
         occ_map_received_ = true;
-        ROS_INFO("Occ map modified and updated.");
+        RCLCPP_INFO(this->get_logger(), "Occ map modified and updated.");
 
         // Proceed with path planning if all conditions are met
         attemptPathPlanning();
     }
 
-    void labelMapCallback(const nav_msgs::OccupancyGrid::ConstPtr &msg)
+    void labelMapCallback(const nav_msgs::msg::OccupancyGrid::ConstSharedPtr & msg)
     {
         // Check if the map has already been received and if it matches the current map
         if (label_map_received_ &&
@@ -429,15 +432,15 @@ private:
         none_modified_label_map_ = *msg;
 
         // Print the received map info
-        ROS_INFO("Got a new map!");
+        RCLCPP_INFO(this->get_logger(), "Got a new label map!");
 
         // Copy the received map to modify it
-        nav_msgs::OccupancyGrid modified_map = *msg;
+        nav_msgs::msg::OccupancyGrid modified_map = *msg;
 
         // Check if width is even, if so, add a column of obstacles
         if (modified_map.info.width % 2 == 0)
         {
-            ROS_INFO("Width is even. Adding a column of obstacles...");
+            RCLCPP_INFO(this->get_logger(), "Width is even. Adding a column of zeros...");
             // Add a column of obstacles (value 100)
             for (int i = 0; i < modified_map.info.height; ++i)
             {
@@ -449,7 +452,7 @@ private:
         // Check if height is even, if so, add a row of obstacles
         if (modified_map.info.height % 2 == 0)
         {
-            ROS_INFO("Height is even. Adding a row of obstacles...");
+            RCLCPP_INFO(this->get_logger(), "Height is even. Adding a row of zeros...");
             // Add a row of obstacles (value 100)
             for (int i = 0; i < modified_map.info.width; ++i)
             {
@@ -461,17 +464,17 @@ private:
         // Now assign the modified map as the current map
         current_label_map_ = modified_map;
         label_map_received_ = true;
-        ROS_INFO("Label map modified and updated.");
+        RCLCPP_INFO(this->get_logger(), "Label map modified and updated.");
 
         // Proceed with path planning if all conditions are met
         attemptPathPlanning();
     }
 
-    void automatonCallback(const std_msgs::String::ConstPtr &msg)
+    void automatonCallback(const std_msgs::msg::String::ConstSharedPtr & msg)
     {
         if (automaton_received_)
         {
-            ROS_INFO("Received automaton again!!!!!");
+            RCLCPP_INFO(this->get_logger(), "Received automaton again!");
             const spot::bdd_dict_ptr &dict = automaton_->get_dict();
             std::ostringstream oss;
 
@@ -491,10 +494,9 @@ private:
             // Close dictionary
             oss << "} ";
 
-            std_msgs::String msg;
-            msg.data = oss.str();
-
-            ap_id_pub_.publish(msg);
+            std_msgs::msg::String out_msg;
+            out_msg.data = oss.str();
+            ap_id_pub_->publish(out_msg);
 
             return;
         }
@@ -509,15 +511,14 @@ private:
         if (pa->aborted)
         {
             std::cerr << "--ABORT-- read\n";
-            ROS_INFO("Automaton aborted.");
+            RCLCPP_INFO(this->get_logger(), "Automaton aborted.");
             return;
         }
 
         automaton_ = pa->aut;
         automaton_received_ = true;
-        ROS_INFO("Received automaton!!!!!");
 
-        ROS_INFO("Aut Type: [%d]", (int)pa->type); // 0 is HOA format
+        RCLCPP_INFO(this->get_logger(), "Received automaton! Type=%d", static_cast<int>(pa->type));
 
         delete str_parser;
 
@@ -540,52 +541,47 @@ private:
         current_occ_map_.info.height == current_label_map_.info.height);
 
         if (!maps_same_dim_) {
-        ROS_INFO("Maps are not aligned in dimensions. Waiting until they match ...");
+            RCLCPP_INFO(this->get_logger(), "Maps are not aligned in dimensions. Waiting until they match ...");
         }
 
         if (automaton_received_ && occ_map_received_ && label_map_received_ && pose_received_ && maps_same_dim_)
         {
-            ROS_INFO("Attempting to compute path...");
+            RCLCPP_INFO(this->get_logger(), "Attempting to compute path...");
 
-            double temp = current_pose_.pose.pose.position.x;
-            current_pose_.pose.pose.position.x = current_pose_.pose.pose.position.y;
-            current_pose_.pose.pose.position.y = temp;
-            std::cout << "Current Pose: ";
-            std::cout << current_pose_.pose.pose.position.x << " " << current_pose_.pose.pose.position.y << std::endl;
+            std::swap(current_pose_.pose.pose.position.x, current_pose_.pose.pose.position.y);
+            RCLCPP_INFO(this->get_logger(), "Current Pose: %.3f %.3f", current_pose_.pose.pose.position.x, current_pose_.pose.pose.position.y);
 
-            std::vector<geometry_msgs::Pose> path = computePath(automaton_, current_pose_, current_occ_map_, current_label_map_);
+            std::vector<geometry_msgs::msg::Pose> path = computePath(automaton_, current_pose_, current_occ_map_, current_label_map_);
 
-            ROS_INFO("Path computed with %lu waypoints.", path.size());
+            RCLCPP_INFO(this->get_logger(), "Path computed with %zu waypoints.", path.size());
 
-            nav_msgs::Path path_msg = convertToPath(path, current_occ_map_.header.frame_id);
+            nav_msgs::msg::Path path_msg = convertToPath(path, current_occ_map_.header.frame_id);
 
-            path_pub_.publish(path_msg);
+            path_pub_->publish(path_msg);
 
             // Ensure maps are relatively up-to-date during next planning
             occ_map_received_ = false;
             label_map_received_ = false;
 
             // Delay for 10 seconds before allowing a new path computation
-            ROS_INFO("Waiting 10 seconds before re-planning...");
-            ros::Duration(10.0).sleep();
+            RCLCPP_INFO(this->get_logger(), "Waiting 10 seconds before re-planning...");
+            rclcpp::sleep_for(std::chrono::seconds(10));
         }
     }
 
-    nav_msgs::Path convertToPath(const std::vector<geometry_msgs::Pose> &poses, const std::string &frame_id)
+    nav_msgs::msg::Path convertToPath(const std::vector<geometry_msgs::msg::Pose> &poses, const std::string &frame_id)
     {
-        nav_msgs::Path path_msg;
-        path_msg.header.stamp = ros::Time::now();
+        nav_msgs::msg::Path path_msg;
+        path_msg.header.stamp = this->get_clock()->now();
         path_msg.header.frame_id = world_frame_id;
 
         for (const auto &pose : poses)
         {
-            geometry_msgs::PoseStamped pose_stamped;
-            pose_stamped.header.stamp = ros::Time::now();
+            geometry_msgs::msg::PoseStamped pose_stamped;
+            pose_stamped.header.stamp = this->get_clock()->now();
             pose_stamped.header.frame_id = world_frame_id;
             pose_stamped.pose = pose;
-            double tmp = pose_stamped.pose.position.x;
-            pose_stamped.pose.position.x = pose_stamped.pose.position.y;
-            pose_stamped.pose.position.y = tmp;
+            std::swap(pose_stamped.pose.position.x, pose_stamped.pose.position.y);
             path_msg.poses.push_back(pose_stamped);
         }
 
@@ -595,10 +591,9 @@ private:
 
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "ltl_planner_node");
-
-    LTLPlannerNode planner_node;
-    ros::spin();
-
+    rclcpp::init(argc, argv);
+    auto node = std::make_shared<LTLPlannerNode>();
+    rclcpp::spin(node);
+    rclcpp::shutdown();
     return 0;
 }

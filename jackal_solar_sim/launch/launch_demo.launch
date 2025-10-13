@@ -1,6 +1,0 @@
-<launch>
-
-    <include file="$(find jackal_solar_sim)/launch/launch_mapping.launch"/>
-    <include file="$(find jackal_solar_sim)/launch/launch_planning.launch"/>
-
-</launch>
